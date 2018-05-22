@@ -20,7 +20,7 @@ class Jit_model extends CI_Model{
      
 
        $html		= '';
-	    $html	.= '<option value="">Merchant LGA</option>	';
+	    $html	.= '<option value="">Select LGA</option>	';
 		
 		foreach ($data->result() as $row) {
 			$html .= '<option value="'.$row->name.'">'.$row->name.'</option>	';

@@ -76,15 +76,14 @@ jQuery(document).ready(function() {
 								if(price.shipping_price > 0){
 									$('#send_package').show();
 									$('#shipping_cost').val(price.shipping_price);
-									var total_amount = parseInt(item_amount) + parseInt(price.shipping_price);
-									$('#total_amount').val(total_amount);
+									$('#total_amount').val(price.shipping_price);
 			
 								}else{
 									alert("No delivery quotes!!! Select a different shipping location");
 									$('#send_package').hide();
 									$('#item_cost').val(total_price);
 									$('#shipping_cost').val('0.00');
-									$('#total_amount').val(total_price);
+									$('#total_amount').val('0.00');
 								}
 							},
 							error: function() {
@@ -102,7 +101,7 @@ jQuery(document).ready(function() {
     /*
         Fullscreen background
     */
-    $.backstretch("/assets/img/backgrounds/1.jpg");
+    $.backstretch("assets/img/backgrounds/1.jpg");
     
     $('#top-navbar-1').on('shown.bs.collapse', function(){
     	$.backstretch("resize");
