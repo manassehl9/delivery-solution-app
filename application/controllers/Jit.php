@@ -149,7 +149,7 @@ class Jit extends CI_Controller {
 	public function get_token()
 	{
 		$url = 'http://new.saddleng.com/api/token';
-		$body = json_encode(array('login' => 'DapoA', 'password' => 'password'));
+		$body = json_encode(array('login' => 'sendpackage', 'password' => 'password'));
 		$header = array('Content-Type: application/json', 
 		'Content-Length: ' . strlen($body));
 																					
@@ -171,7 +171,7 @@ class Jit extends CI_Controller {
 	{
 		
 		$returnUrl ='/jit/netpluspay_success';
-		$merchantId = 'TEST5a81735b2a429';
+		$merchantId = 'MID5b0c3ac715d976.33987466';
 		$merchant_name = $_SESSION['transaction']['merchant_name'];
 
 		//https://netpluspay.com/testpayment/paysrc/
@@ -197,7 +197,7 @@ class Jit extends CI_Controller {
 		$transaction_id = $_POST['trans_id'];
 		
 	
-		$merchantId = 'TEST5a81735b2a429';
+		$merchantId = 'MID5b0c3ac715d976.33987466';
 		$url = 'http://api.netpluspay.com/transactions/requery/'.$merchantId.'/'.$transaction_id.'';
 
 		
@@ -554,7 +554,65 @@ class Jit extends CI_Controller {
 
 			            <td colspan="" style="padding:10px 20px;"> '.$order_id.'
 			            </td>
+					</tr>
+					
+
+
+
+					<tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			               Pickup Information
+			            </td>
 			        </tr>
+
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			                <table width="100%">
+			                    <tr>
+			                        <td width="40%" height="30">Address</td>
+			                        <td width="60%">
+			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px; padding: 0 10px;">
+			                                '.$merchant_address.'
+			                            </div>
+			                        </td>
+			                      
+			                    </tr>
+			                    <tr>
+			                        <td width="40%" height="30">Phone</td>
+			                        <td width="60%">
+			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                               '.$merchant_contact.'
+			                            </div>
+			                        </td>
+			                        
+			                    </tr>
+		                        <tr>
+			                        <td width="40%" height="30">State</td>
+			                        <td width="60%">
+			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                                '.$delivery_state.'
+			                            </div>
+			                        </td>
+			                        
+								</tr>
+								<tr>
+			                        <td width="40%" height="30">LGA</td>
+			                        <td width="60%">
+			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                                '.$delivery_lga.'
+			                            </div>
+			                        </td>
+			                        
+			                    </tr>
+			                </table>
+			            </td>
+			        </tr>
+
+
+
 
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
