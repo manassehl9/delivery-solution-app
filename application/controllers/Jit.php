@@ -170,14 +170,14 @@ class Jit extends CI_Controller {
 	public function netpluspay()
 	{
 		
-		$returnUrl ='http://localhost/netplus-saddlejit/jit/netpluspay_success';
+		$returnUrl ='/jit/netpluspay_success';
 		$merchantId = 'TEST5a81735b2a429';
 		$merchant_name = $_SESSION['transaction']['merchant_name'];
 
 		//https://netpluspay.com/testpayment/paysrc/
 		?>
 		<body onload="document.getElementById('netpluspay_form').submit();">
-		<form method="POST" id="netpluspay_form" name="netpluspay_form" action="https://netpluspay.com/pay/test/" >
+		<form method="POST" id="netpluspay_form" name="netpluspay_form" action="http://netpluspay.com/pay/live/" >
 			<input type="hidden" name="full_name" value="<?php echo $merchant_name; ?>">
 			<input type="hidden" name="email" value="manassehl9@gmial.com">
 			<input type="hidden" name="merchantid" value="<?php echo $merchantId;?>">
@@ -185,7 +185,7 @@ class Jit extends CI_Controller {
 			<input type="hidden" name="narration" value="Order from Send Package">
 			<input type="hidden" name="orderid" value="<?php echo $_SESSION['order_id']; ?>">
 			<input type="hidden" name="amount" value="<?php echo $_SESSION['shipping_price']; ?>">
-			<input type="hidden" name="return_url" value="http://localhost/netplus-saddlejit/jit/netpluspay_success">
+			<input type="hidden" name="return_url" value="<?php echo base_url();?>jit/netpluspay_success">
 			<input type="hidden" name="recurring" value="no">
 		</form>
 		</body>
@@ -198,7 +198,7 @@ class Jit extends CI_Controller {
 		
 	
 		$merchantId = 'TEST5a81735b2a429';
-		$url = 'http://api-test.netpluspay.com/transactions/requery/'.$merchantId.'/'.$transaction_id.'';
+		$url = 'http://api.netpluspay.com/transactions/requery/'.$merchantId.'/'.$transaction_id.'';
 
 		
 		
@@ -309,19 +309,19 @@ class Jit extends CI_Controller {
 		{
 			if($courier_id == 'SAfceb761'){
 				$courier_name = 'FEDEX';
-				$courier_email = '';
+				$courier_email = 'tosin.ibadu@redstarplc.com';
 			}else if($courier_id == 'SAed7352a'){
 				$courier_name = 'EDCR Courier';
-				$courier_email = '';
+				$courier_email = 'penwe@edcregistrars.com';
 			}else if($courier_id == 'SA493a731'){
 				$courier_name = "Courier Plus";
-				$courier_email = '';
+				$courier_email = 'o.osideko@courierplus-ng.com';
 			}else if ($courier_id == 'SAf9fac5e'){
 				$courier_name = 'Ups';
-				$courier_email = '';
+				$courier_email = 'onweke@ups.com';
 			}else if($courier_id == 'SA505f6e8') {
 				$courier_name = 'Dhl';
-				$courier_email = '';
+				$courier_email = 'maria.edewor@dhl.com';
 			}else{
 				$courier_name = 'Courier';
 				$courier_email = '';
