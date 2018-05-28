@@ -68,5 +68,12 @@ class Jit_model extends CI_Model{
             return false;
         }
     }
+
+    public function store_merchant($data)
+    {
+        $this->db->insert('transactions', $data);
+        return $this->db->insert_id();
+
+    }
 }
 ?>

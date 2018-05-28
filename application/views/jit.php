@@ -4,7 +4,7 @@
     <!-- Top content -->
     <section id="package">
         <div class="top-content">
-          
+        <div id="paymentFrame"></div> 
             <div class="inner-bg">
                 <div class="container">
                     <div class="row">
@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 form-box">
                           
-                          <form role="form" action="<?php echo base_url();?>jit/netpluspay" method="post" class="registration-form">
+                          <form role="form" action="#" method="post" class="registration-form">
                         
                             <fieldset>
                               <div class="form-top">
@@ -41,7 +41,7 @@
                                   <input type="number" name="item_weight" placeholder="Estimated Weight" class="item_weight form-control" id="item_weight">
                                 </div>
                                 <div class="form-group col-md-6">
-                                  <label class="control-label">Price:</label>
+                                  <label class="control-label">Value of Item:</label>
                                   <input type="number" name="item_price" placeholder="Price" class="item_price form-control" id="item_price">
                                 </div>
                                 <button type="button" class="btn btn-next">Next</button>
@@ -186,7 +186,9 @@
                                         </select>
                                      </div>
                                 </div>
+                                
                                 <div class="form-bottom">
+                               
                                     <div class="form-group col-md-12">
                                         <label class="control-label">Item Cost:</label>
                                         <input type="text" value="0.00" class="form-control" id="item_cost">
@@ -199,14 +201,16 @@
                                         <label class="control-label">Total Payment:</label>
                                         <input type="text" value="0.00" class="form-control" id="total_amount">
                                     </div>
+                                    <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
                                 </div>
                              
                               <br>
                               <br>
                               <hr>
-                              <button type="button" class="btn btn-previous">Previous</button>
-                            <button type="submit" class="btn btn-success" id="send_package" style="display:none;">Send Package!</button>
-                            
+                              
+                              <button type="button" class="btn btn-previous">Previous</button>                            
+                              <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button>
+                              
                           </fieldset>
                         
                         </form>

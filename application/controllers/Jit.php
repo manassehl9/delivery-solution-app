@@ -12,8 +12,9 @@ class Jit extends CI_Controller {
     }
 	public function index()
 	{
-        $transaction_id = 'JIT'.date("Y").mt_rand(1000000, 9999999);  
-        $_SESSION['order_id'] = $transaction_id;
+        $transaction_id = 'SPCK'.date("Y").mt_rand(1000000, 9999999);  
+		$_SESSION['order_id'] = $transaction_id;
+		$data['order_id'] = $_SESSION['order_id'];
         $data['states'] = $this->jit_model->get_state();
         $data['couriers'] = $this->jit_model->get_courier();
 
@@ -50,8 +51,18 @@ class Jit extends CI_Controller {
         
         $data['total_item_price'] = (int)$data['item_price'] * (int)$data['item_quantity'];
 		$_SESSION['total_amount'] = $data['total_item_price'];
-		
-        $_SESSION['transaction'] = $data;
+	
+		$_SESSION['transaction'] = $data;
+
+		// Store merchant details into the database
+		$merchant_details['merchant_name'] = $data['merchant_name'];
+		$merchant_details['merchant_contact'] = $data['merchant_contact'];
+		$merchant_details['merchant_email'] = $data['merchant_email'];
+		$merchant_details['merchant_address'] = $data['merchant_address'];
+		$merchant_details['merchant_state'] = $data['merchant_state'];
+		$merchant_details['merchant_lga'] = $data['merchant_lga'];
+		$this->jit_model->store_merchant($merchant_details);
+
     }
     
     public function merchant_delivery_lga()
@@ -90,10 +101,10 @@ class Jit extends CI_Controller {
 		
 
 		$item_price = $_SESSION['transaction']['item_price'];
-		$delivery_state = $_SESSION['transaction']['merchant_state'];
-		$pickup_state = $_SESSION['transaction']['customer_state'];
-		$delivery_lga =$_SESSION['transaction']['merchant_lga'];
-		$pickup_lga = $_SESSION['transaction']['customer_lga'];
+		$pickup_state = $_SESSION['transaction']['merchant_state'];
+		$delivery_state = $_SESSION['transaction']['customer_state'];
+		$pickup_lga =$_SESSION['transaction']['merchant_lga'];
+		$delivery_lga = $_SESSION['transaction']['customer_lga'];
 		$weight = $_SESSION['transaction']['item_weight'];
 		$quantity = $_SESSION['transaction']['item_quantity'];
 		$courier_id = $courier_id;
@@ -105,7 +116,7 @@ class Jit extends CI_Controller {
 
 		$url = 'http://new.saddleng.com/api/v2/shipping_price';
 		$token = $this->get_token();
-		$body = json_encode(array('delivery_state' => $delivery_state, 'pickup_state' => $pickup_state, 'pickup_lga' => $pickup_lga, 'delivery_lga'=> $delivery_lga, 'weight' => $weight, 'courier_id' => $courier_id));
+		$body = json_encode(array('delivery_state' => $delivery_state, 'pickup_state' => $pickup_state, 'delivery_lga'=> $delivery_lga, 'pickup_lga' => $pickup_lga, 'weight' => $weight, 'courier_id' => $courier_id));
 		$header = array('Content-Type: application/json', 
 		'Authorization: Bearer '.$token);
 
@@ -116,6 +127,7 @@ class Jit extends CI_Controller {
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 		$price = curl_exec($ch);
+
 
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
@@ -151,10 +163,14 @@ class Jit extends CI_Controller {
 		$value = json_decode($token);
 		return $value->token;
 	}
+
+
+
+
 	public function netpluspay()
 	{
 		
-		$returnUrl ='http://sendpackage.saddleng.com/jit/netpluspay_success';
+		$returnUrl ='http://localhost/netplus-saddlejit/jit/netpluspay_success';
 		$merchantId = 'TEST5a81735b2a429';
 		$merchant_name = $_SESSION['transaction']['merchant_name'];
 
@@ -169,7 +185,7 @@ class Jit extends CI_Controller {
 			<input type="hidden" name="narration" value="Order from Send Package">
 			<input type="hidden" name="orderid" value="<?php echo $_SESSION['order_id']; ?>">
 			<input type="hidden" name="amount" value="<?php echo $_SESSION['shipping_price']; ?>">
-			<input type="hidden" name="return_url" value="http://sendpackage.saddleng.com/jit/netpluspay_success">
+			<input type="hidden" name="return_url" value="http://localhost/netplus-saddlejit/jit/netpluspay_success">
 			<input type="hidden" name="recurring" value="no">
 		</form>
 		</body>
@@ -183,6 +199,8 @@ class Jit extends CI_Controller {
 	
 		$merchantId = 'TEST5a81735b2a429';
 		$url = 'http://api-test.netpluspay.com/transactions/requery/'.$merchantId.'/'.$transaction_id.'';
+
+		
 		
 
 		$json_xml = file_get_contents($url);
@@ -221,7 +239,7 @@ class Jit extends CI_Controller {
 		$customer_contact = $_SESSION['transaction']['customer_contact'];
 		$customer_address = $_SESSION['transaction']['customer_address'];
 		$customer_email =$_SESSION['transaction']['customer_email'];
-		$delivery_cost = $_SESSION['total_amount'];
+		$delivery_cost = $_SESSION['shipping_price'];
 
 		$items[] = array(
 			'item_cost' 	=> $item_price,
@@ -282,20 +300,31 @@ class Jit extends CI_Controller {
 		$result = curl_exec($ch);
 		
 
+		
 		$res = json_decode($result);
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
+
 		curl_close($ch); 
 		if($httpcode == 200)
 		{
 			if($courier_id == 'SAfceb761'){
-				$courier = 'FEDEX';
+				$courier_name = 'FEDEX';
+				$courier_email = '';
 			}else if($courier_id == 'SAed7352a'){
-				$courier = 'EDCR Courier';
+				$courier_name = 'EDCR Courier';
+				$courier_email = '';
 			}else if($courier_id == 'SA493a731'){
-				$courier = "Courier Plus";
+				$courier_name = "Courier Plus";
+				$courier_email = '';
+			}else if ($courier_id == 'SAf9fac5e'){
+				$courier_name = 'Ups';
+				$courier_email = '';
+			}else if($courier_id == 'SA505f6e8') {
+				$courier_name = 'Dhl';
+				$courier_email = '';
 			}else{
-				$courier = 'Courier';
+				$courier_name = 'Courier';
+				$courier_email = '';
 			};
 
 			$merchant_email_message = '<!DOCTYPE html>
@@ -513,7 +542,7 @@ class Jit extends CI_Controller {
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
 			                <p>
-			                    Dear <strong> '.$courier.' </strong>,<br /><br />
+			                    Dear <strong> '.$courier_name.' </strong>,<br /><br />
 			                    You have an order on Saddle. 
 			                </p>
 			            </td>
@@ -655,7 +684,7 @@ class Jit extends CI_Controller {
 			//$femail = $this->email->from("manieabiodun@gmail.com", "Manie Joh");
 								 
 			//$this->email->to($shippingDetail->email);
-			$temail = $this->email->to($merchant_email, $merchant_name);
+			$temail = $this->email->to($courier_email, $courier_name);
 
 
 			$semail = $this->email->subject('Order on Saddle Send Package');

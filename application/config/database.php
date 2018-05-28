@@ -78,6 +78,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => 'netplus',
+	//'password' => '',
 	'database' => 'jitsaddle',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
