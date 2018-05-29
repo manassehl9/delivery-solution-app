@@ -1,5 +1,51 @@
 
 jQuery(document).ready(function() {
+
+	$("#netplus-pay").click(function (e) {
+
+		var total_amount = $('#total_amount').val();
+		var order_id = $('#order_id').val();
+		var merchant_id = "TEST5b0c3742ac4ce";
+		var merchant_name = $('#merchant_name').val();
+
+		console.log(order_id);
+        e.preventDefault();
+        netpluspayPOP.setup(
+            {
+                merchant: merchant_id,
+                customer_name: merchant_name,
+                email: merchant_email,
+                amount: total_amount,
+                currency_code:"NGN",
+                narration: "Order from Send Package",
+                order_id: order_id,
+                container: "paymentFrame",
+                callBack: function (resp) {
+					
+					$.ajax({
+						type: "GET",
+						url: "/jit/courier/",
+						success: function(data){
+							alert("SEND");
+						}
+					});
+					window.location = "http://localhost/sendpackage-saddle/";
+					this.closeIframe();
+					console.log("HERE");
+					console.log(resp);
+					
+					
+                },
+                onClose : function(){
+                    console.log('window closed');
+				}
+				
+			}
+			
+        );
+        netpluspayPOP.prepareFrame();
+    });
+
 	$('#merchantDeliverystate').change(function(){
 		$states = $(this).val();
 		var state = $('#merchantDeliverystate option:selected').text();
@@ -62,7 +108,7 @@ jQuery(document).ready(function() {
 			success: function(data){
 				$.ajax({
 					type: "POST",
-					url: "/jit/get_courier_name",
+					url: "/get_courier_name",
 					data: {"courier": courier},
 					success: function(data){
 						$.ajax({
@@ -74,13 +120,13 @@ jQuery(document).ready(function() {
 								$('#item_cost').val(total_price);
 								var item_amount = $('#item_cost').val();
 								if(price.shipping_price > 0){
-									$('#send_package').show();
+									$('#netplus-pay').show();
 									$('#shipping_cost').val(price.shipping_price);
 									$('#total_amount').val(price.shipping_price);
 			
 								}else{
 									alert("No delivery quotes!!! Select a different shipping location");
-									$('#send_package').hide();
+									$('#netplus-pay').hide();
 									$('#item_cost').val(total_price);
 									$('#shipping_cost').val('0.00');
 									$('#total_amount').val('0.00');
@@ -123,7 +169,7 @@ jQuery(document).ready(function() {
     $('.registration-form .btn-next').on('click', function() {
     	var parent_fieldset = $(this).parents('fieldset');
 		var next_step = true;
-		$('#send_package').hide();
+		$('#netplus-pay').hide();
 		$("#selectCourier option:selected").prop("selected", false);
 		
 		function ValidateEmail(email) {

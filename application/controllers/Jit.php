@@ -165,57 +165,6 @@ class Jit extends CI_Controller {
 	}
 
 
-
-
-	public function netpluspay()
-	{
-		
-		$returnUrl ='/jit/netpluspay_success';
-		$merchantId = 'MID5b0c3ac715d976.33987466';
-		$merchant_name = $_SESSION['transaction']['merchant_name'];
-
-		//https://netpluspay.com/testpayment/paysrc/
-		?>
-		<body onload="document.getElementById('netpluspay_form').submit();">
-		<form method="POST" id="netpluspay_form" name="netpluspay_form" action="http://netpluspay.com/pay/live/" >
-			<input type="hidden" name="full_name" value="<?php echo $merchant_name; ?>">
-			<input type="hidden" name="email" value="manassehl9@gmial.com">
-			<input type="hidden" name="merchantid" value="<?php echo $merchantId;?>">
-			<input type="hidden" name="currency" value="NGN">
-			<input type="hidden" name="narration" value="Order from Send Package">
-			<input type="hidden" name="orderid" value="<?php echo $_SESSION['order_id']; ?>">
-			<input type="hidden" name="amount" value="<?php echo $_SESSION['shipping_price']; ?>">
-			<input type="hidden" name="return_url" value="<?php echo base_url();?>jit/netpluspay_success">
-			<input type="hidden" name="recurring" value="no">
-		</form>
-		</body>
-		<?php
-	}
-
-	public function netpluspay_success()
-	{
-		$transaction_id = $_POST['trans_id'];
-		
-	
-		$merchantId = 'MID5b0c3ac715d976.33987466';
-		$url = 'http://api.netpluspay.com/transactions/requery/'.$merchantId.'/'.$transaction_id.'';
-
-		
-		
-
-		$json_xml = file_get_contents($url);
-        $response_object = json_decode($json_xml);
-        $status_code = $response_object->code;
-		if($status_code == '00')
-		{
-			$this->courier();
-		}else{
-
-			echo 'payment failed';
-		}
-		
-	}
-
 	public function courier()
 	{
 		$order_id = $_SESSION['order_id'];
@@ -367,7 +316,7 @@ class Jit extends CI_Controller {
 
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
-			               Delivery Information
+			               Pickup Information
 			            </td>
 			        </tr>
 
@@ -488,7 +437,7 @@ class Jit extends CI_Controller {
 			$config['smtp_port']    = '465';
 			$config['smtp_timeout'] = '7';
 			$config['smtp_user']    = AdminEmail;
-			$config['smtp_pass']    = 'Netmanie93';
+			$config['smtp_pass']    = 'Saddle7890';
 			$config['charset']    = 'utf-8';
 			$config['newline']    = "\r\n";
 			$config['mailtype'] = 'text'; // or html
