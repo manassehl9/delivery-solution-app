@@ -9,6 +9,6 @@
     <script src="/saddleng/js/jquery.backstretch.min.js"></script>
     <script src="/saddleng/js/retina-1.1.0.min.js"></script>
     <script src="/saddleng/js/scripts.js"></script>
-    <script src="https://netpluspay.com/inlinetestpayment/js/inline.js"></script>
+    <script src="https://netpluspay.com/inlinepayment/js/inline.js"></script>
   </body>
 </html>

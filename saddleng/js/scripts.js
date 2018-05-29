@@ -5,7 +5,7 @@ jQuery(document).ready(function() {
 
 		var total_amount = $('#total_amount').val();
 		var order_id = $('#order_id').val();
-		var merchant_id = "TEST5b0c3742ac4ce";
+		var merchant_id = "MID5b0c3ac715d976.33987466";
 		var merchant_name = $('#merchant_name').val();
 
 		console.log(order_id);
