@@ -1,4 +1,3 @@
-
 jQuery(document).ready(function() {
 
 	$("#netplus-pay").click(function (e) {
@@ -21,20 +20,23 @@ jQuery(document).ready(function() {
                 order_id: order_id,
                 container: "paymentFrame",
                 callBack: function (resp) {
-					
+					//alert(resp);
+					var _self = this;
+					console.log(resp);
 					$.ajax({
 						type: "GET",
 						url: "/jit/courier/",
 						success: function(data){
-							alert("SEND");
+							console.log(resp);
+							if (resp.code == '00') {
+								window.location = window.location.origin;
+							} else {
+								window.location = window.location.origin;
+								_self.closeIframe();
+							}
+							
 						}
 					});
-					window.location = "http://localhost/sendpackage-saddle/";
-					this.closeIframe();
-					console.log("HERE");
-					console.log(resp);
-					
-					
                 },
                 onClose : function(){
                     console.log('window closed');
@@ -108,7 +110,7 @@ jQuery(document).ready(function() {
 			success: function(data){
 				$.ajax({
 					type: "POST",
-					url: "/get_courier_name",
+					url: "/jit/",
 					data: {"courier": courier},
 					success: function(data){
 						$.ajax({
