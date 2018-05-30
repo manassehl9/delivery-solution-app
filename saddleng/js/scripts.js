@@ -19,28 +19,25 @@ jQuery(document).ready(function() {
                 narration: "Order from Send Package",
                 order_id: order_id,
                 container: "paymentFrame",
+                onClose  : function() {
+					this.closeIframe();
+					window.location = window.location.origin;
+				},
                 callBack: function (resp) {
-					//alert(resp);
-					var _self = this;
-					console.log(resp);
-					$.ajax({
-						type: "GET",
-						url: "/jit/courier/",
-						success: function(data){
-							console.log(resp);
-							if (resp.code == '00') {
+					var func = function() {
+						$.ajax({
+							type: "GET",
+							url: "/jit/courier/",
+							success: function(data){
 								window.location = window.location.origin;
-							} else {
-								window.location = window.location.origin;
-								_self.closeIframe();
 							}
-							
-						}
-					});
-                },
-                onClose : function(){
-                    console.log('window closed');
-				}
+						});
+					}
+
+					if (resp.code == '00') {
+						func();
+					}
+                }
 				
 			}
 			
