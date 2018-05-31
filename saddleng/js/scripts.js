@@ -6,8 +6,8 @@ jQuery(document).ready(function() {
 		var order_id = $('#order_id').val();
 		var merchant_id = "MID5b0c3ac715d976.33987466";
 		var merchant_name = $('#merchant_name').val();
+		var merchant_email = $('#merchant_email').val();
 
-		console.log(order_id);
         e.preventDefault();
         netpluspayPOP.setup(
             {
@@ -107,7 +107,7 @@ jQuery(document).ready(function() {
 			success: function(data){
 				$.ajax({
 					type: "POST",
-					url: "/jit/",
+					url: "/jit/get_courier_name",
 					data: {"courier": courier},
 					success: function(data){
 						$.ajax({

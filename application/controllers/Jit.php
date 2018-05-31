@@ -226,7 +226,7 @@ class Jit extends CI_Controller {
 			'country'			=> 'Nigeria',
 		);
 		$data['POD'] = 0;
-		$is_pre_auth = 1;
+		$is_pre_auth = 0;
 		$payment_type = 2;
 		$data['delivery_cost'] = $delivery_cost;
 		$data['payment_type'] = $payment_type;
