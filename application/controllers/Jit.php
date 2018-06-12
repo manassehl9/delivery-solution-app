@@ -49,9 +49,32 @@ class Jit extends CI_Controller {
 		$data['customer_state'] = $this->input->post('customer_state');
 		$data['customer_lga'] = $this->input->post('customer_lga');
         
-        $data['total_item_price'] = (int)$data['item_price'] * (int)$data['item_quantity'];
-		$_SESSION['total_amount'] = $data['total_item_price'];
+        $item_count = count($data['item_name']);
+		$data['weight'] = 0;
+		$data['total_item_cost'] = 0;
+		for($i=0; $i<$item_count; $i++)
+		{
+			$item_name[] = $data['item_name'][$i];
+			$item_quantity[] = $data['item_quantity'][$i];
+			$item_price[] = $data['item_price'][$i];
+			$item_weight[] = $data['item_weight'][$i];
+			$data['weight'] += $data['item_weight'][$i];
+			$data['total_item_cost'] += (int)$data['item_price'][$i] * (int)$data['item_quantity'][$i];
+		}
+		
+		$_SESSION['item_name'] = $item_name;
+		$_SESSION['item_price'] = $item_price;
+		$_SESSION['item_quantity'] = $item_quantity;
+		$_SESSION['item_weight'] = $item_weight;
+
 	
+		$item_price = array_sum($item_price);
+		$item_quantity = array_sum($item_quantity);
+        
+        $data['total_item_price'] = $item_price;
+		$_SESSION['total_amount'] = $data['total_item_cost'];
+
+
 		$_SESSION['transaction'] = $data;
 
 		// Store merchant details into the database
@@ -120,7 +143,7 @@ class Jit extends CI_Controller {
 		$header = array('Content-Type: application/json', 
 		'Authorization: Bearer '.$token);
 
-		//var_dump($body);
+
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -149,7 +172,8 @@ class Jit extends CI_Controller {
 	public function get_token()
 	{
 		$url = 'http://new.saddleng.com/api/token';
-		$body = json_encode(array('login' => 'sendpackage', 'password' => 'password'));
+		$body = json_encode(array('login' => 'DapoA', 'password' => 'password'));
+		//$body = json_encode(array('login' => 'sendpackage', 'password' => 'password'));
 		$header = array('Content-Type: application/json', 
 		'Content-Length: ' . strlen($body));
 																					
@@ -190,17 +214,23 @@ class Jit extends CI_Controller {
 		$customer_email =$_SESSION['transaction']['customer_email'];
 		$delivery_cost = $_SESSION['shipping_price'];
 
-		$items[] = array(
-			'item_cost' 	=> $item_price,
-			'item_name' 	=> $item_name,
-			'item_size' 	=> '',
-			'item_weight' 	=> $weight,
-			'item_color' 	=> '',
-			'item_quantity' => $quantity,
-			'image_location' => '',
-			'fragile' 		=> 0,
-			'perishable' 	=> 0,
-		);
+		$item_count = count($item_name);
+
+		for($i=0; $i<$item_count; $i++)
+		{
+			$items[] = array(
+				'item_cost' 	=>  $item_price[$i],
+				'item_name' 	=>  $item_name[$i],
+				'item_size' 	=> '0',
+				'item_weight' 	=> $weight[$i],
+				'item_color' 	=>  'NULL',
+				'item_quantity' =>$quantity[$i],
+				'image_location' => 'NULL',
+				'fragile' 		=> 0,
+				'perishable' 	=> 0,
+			);
+		
+		}
 
 		$data['courier_id'] = $courier_id;
 		$data['orders'] = array('items' => $items);
@@ -378,14 +408,19 @@ class Jit extends CI_Controller {
 									<td><strong>QUANTITY</strong></td>
 									<td><strong>WEIGHT</strong></td>
 									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>'.$items[0]['item_name'].'</td>
-									<td>&#x20A6;'.$items[0]['item_cost'].'</td>
-									<td>'.$items[0]['item_quantity'].'</td>
-									<td>'.$items[0]['item_weight'].'</td>
-								</tr>
-								<tr>
+								</tr>';
+								
+								for($i=0; $i<$item_count; $i++)
+								{	
+								$merchant_email_message .='<tr>
+									<td>'.$items[$i]['item_name'].'</td>
+									<td>&#x20A6;'.$items[$i]['item_cost'].'</td>
+									<td>'.$items[$i]['item_quantity'].'</td>
+									<td>'.$items[$i]['item_weight'].'</td>
+								</tr>';
+								
+								}
+								$merchant_email_message .= '<tr>
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 									<td colspan="2"><strong>Delivery Amount:</strong></td>
@@ -627,14 +662,20 @@ class Jit extends CI_Controller {
 									<td><strong>QUANTITY</strong></td>
 									<td><strong>WEIGHT</strong></td>
 									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>'.$items[0]['item_name'].'</td>
-									<td>&#x20A6;'.$items[0]['item_cost'].'</td>
-									<td>'.$items[0]['item_quantity'].'</td>
-									<td>'.$items[0]['item_weight'].'</td>
-								</tr>
-								<tr>
+								</tr>';
+
+								
+								for($i=0; $i<$item_count; $i++)
+								{	
+								$courier_email_message .='<tr>
+									<td>'.$items[$i]['item_name'].'</td>
+									<td>&#x20A6;'.$items[$i]['item_cost'].'</td>
+									<td>'.$items[$i]['item_quantity'].'</td>
+									<td>'.$items[$i]['item_weight'].'</td>
+								</tr>';
+								
+								}
+								$courier_email_message .= '<tr>
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 									<td colspan="2"><strong>Delivery Amount:</strong></td>

@@ -1,10 +1,25 @@
 jQuery(document).ready(function() {
 
+	var i = 1;
+	$(".registration-form .btn-add").on("click", function() {
+		i++;
+		$('#dynamic_field').append('<div id="dynamic_field" id="row'+i+'"><div class="form-group col-md-6"  id="item_name'+i+'"><label class="control-label">Item Name:</label><input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name"></div><div class="form-group col-md-6"  id="item_quantity'+i+'"><label class="control-label">Item Quantity:</label><input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity"></div><div class="form-group col-md-6" id="item_weight'+i+'"><label class="control-label">Item Weight(KG):</label><input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight"></div><div class="form-group col-md-6" id="item_price'+i+'"><label class="control-label">Item item_price:</label><input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price"></div><button type="button" id="'+i+'" class="btn  btn-danger btn_remove">Delete</button></div>');
+	});
+	$(document).on('click', '.btn_remove', function() {
+		var button_id = $(this).attr("id");
+		$("#item_name"+button_id+"").remove();
+		$("#item_quantity"+button_id+"").remove();
+		$("#item_weight"+button_id+"").remove();
+		$("#item_price"+button_id+"").remove();
+		$("#"+button_id+"").hide();
+	});
+
 	$("#netplus-pay").click(function (e) {
 
 		var total_amount = $('#total_amount').val();
 		var order_id = $('#order_id').val();
-		var merchant_id = "MID5b0c3ac715d976.33987466";
+		var merchant_id = "TEST5b0c3742ac4ce";
+		//var merchant_id = "MID5b0c3ac715d976.33987466";
 		var merchant_name = $('#merchant_name').val();
 		var merchant_email = $('#merchant_email').val();
 
@@ -76,17 +91,37 @@ jQuery(document).ready(function() {
 
 	$('#selectCourier').change(function(){
 		
+		var item_name = new Array();
+		var item_price = new Array();
+		var item_quantity = new Array();
+		var item_weight = new Array();
+
+
+		$('input[name^="item_name"]').each(function() {
+			item_name.push($(this).val());
+		});
+		$('input[name^="item_quantity"]').each(function() {
+			item_quantity.push($(this).val());
+		});
+		$('input[name^="item_price"]').each(function() {
+			item_price.push($(this).val());
+		});
+		$('input[name^="item_weight"]').each(function() {
+			item_weight.push($(this).val());
+		});
+
+		var total_price = 0;
+		for (var i = 0; i < item_name.length; i++) {
+			total_price += parseInt(item_price[i]) * parseInt(item_quantity[i]);
+		}
+
 		var courier = $('#selectCourier option:selected').text();
-		var item_name = $('#item_name').val();
-		var item_quantity = $('#item_quantity').val();
-		var item_weight = $('#item_weight').val();
-		var item_price = $('#item_price').val();
 		var merchant_name = $('#merchant_name').val();
 		var merchant_contact = $('#merchant_contact').val();
 		var merchant_email = $('#merchant_email').val();
 		var merchant_address = $('#merchant_address').val();
 		var merchant_state = $('#merchantDeliverystate').val();
-		var merchant_lga = $('#customerDeliverylga').val();
+		var merchant_lga = $('#merchantDeliverylga').val();
 		var customer_contact = $('#customer_contact').val();
 		var customer_email = $('#customer_email').val();
 		var customer_address = $('#customer_address').val();
