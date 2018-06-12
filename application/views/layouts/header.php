@@ -8,11 +8,11 @@
     <title>Saddle</title>
 
     <!-- Bootstrap -->
-    <link href="http://localhost/netplus-saddlejit/saddleng/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://localhost/netplus-saddlejit/saddleng/css/style.css" rel="stylesheet">
-    <link href="http://localhost/netplus-saddlejit/saddleng/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://localhost/netplus-saddlejit/saddleng/css/form-elements.css">
-    <link rel="stylesheet" href="http://localhost/netplus-saddlejit/saddleng/css/style1.css">
+    <link href="/saddleng/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/saddleng/css/style.css" rel="stylesheet">
+    <link href="/saddleng/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/saddleng/css/form-elements.css">
+    <link rel="stylesheet" href="/saddleng/css/style1.css">
 
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 

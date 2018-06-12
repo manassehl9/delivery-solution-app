@@ -29,8 +29,7 @@
                                 </div>
                                 <div class="form-bottom">
                                 <div id="dynamic_field">
-                                  <button type="button" class="btn btn-add" style="float:right">Add</button>
-                                  <br><br><hr>
+                                  <br>
                                   <div class="form-group col-md-6">
                                     <label class="control-label">Item Name:</label>
                                     <input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name">
@@ -51,7 +50,8 @@
                                  
                                </div>
                                <hr>
-                               <button type="button" class="btn btn-next">Next</button>
+                               <button type="button" class="btn btn-add" >Add Another Item</button>
+                               <button type="button" class="btn btn-next" style="float:right">Next</button>
                               </div>
                             
                             </fieldset>
