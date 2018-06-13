@@ -34,4 +34,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 Capfile
 config/
+log/
 
