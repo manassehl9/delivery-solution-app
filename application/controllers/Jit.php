@@ -128,7 +128,7 @@ class Jit extends CI_Controller {
 		$delivery_state = $_SESSION['transaction']['customer_state'];
 		$pickup_lga =$_SESSION['transaction']['merchant_lga'];
 		$delivery_lga = $_SESSION['transaction']['customer_lga'];
-		$weight = $_SESSION['transaction']['item_weight'];
+		$weight = $_SESSION['transaction']['weight'];
 		$quantity = $_SESSION['transaction']['item_quantity'];
 		$courier_id = $courier_id;
 
