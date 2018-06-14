@@ -172,8 +172,8 @@ class Jit extends CI_Controller {
 	public function get_token()
 	{
 		$url = 'http://new.saddleng.com/api/token';
-		$body = json_encode(array('login' => 'DapoA', 'password' => 'password'));
-		//$body = json_encode(array('login' => 'sendpackage', 'password' => 'password'));
+		//$body = json_encode(array('login' => 'DapoA', 'password' => 'password'));
+		$body = json_encode(array('login' => 'sendpackage', 'password' => 'password'));
 		$header = array('Content-Type: application/json', 
 		'Content-Length: ' . strlen($body));
 																					
@@ -198,10 +198,10 @@ class Jit extends CI_Controller {
 
 		$item_name = $_SESSION['transaction']['item_name'];
 		$item_price = $_SESSION['transaction']['item_price'];
-		$delivery_state = $_SESSION['transaction']['merchant_state'];
-		$pickup_state = $_SESSION['transaction']['customer_state'];
-		$delivery_lga =$_SESSION['transaction']['merchant_lga'];
-		$pickup_lga = $_SESSION['transaction']['customer_lga'];
+		$pickup_state = $_SESSION['transaction']['merchant_state'];
+		$delivery_state = $_SESSION['transaction']['customer_state'];
+		$pickup_lga =$_SESSION['transaction']['merchant_lga'];
+		$delivery_lga = $_SESSION['transaction']['customer_lga'];
 		$weight = $_SESSION['transaction']['item_weight'];
 		$quantity = $_SESSION['transaction']['item_quantity'];
 		$merchant_name = $_SESSION['transaction']['merchant_name'];
@@ -241,8 +241,8 @@ class Jit extends CI_Controller {
 			'merchant_phone' 		=> $merchant_contact,
 			'merchant_email' 		=> $merchant_email,
 			'merchant_address' 		=> $merchant_address,
-			'merchant_lga' 			=> $delivery_lga,
-			'merchant_state' 		=> $delivery_state,
+			'merchant_lga' 			=> $pickup_lga,
+			'merchant_state' 		=> $pickup_state,
 			'country' 				=> 'Nigeria',
 		);
 
@@ -251,13 +251,13 @@ class Jit extends CI_Controller {
 			'customer_email' 	=> $customer_email,
 			'customer_phone'	=> $customer_contact,
 			'customer_address'  => $customer_address,
-			'customer_lga'		=> $pickup_lga,
-			'customer_state'	=> $pickup_state,
+			'customer_lga'		=> $delivery_lga,
+			'customer_state'	=> $delivery_state,
 			'country'			=> 'Nigeria',
 		);
 		$data['POD'] = 0;
-		$is_pre_auth = 0;
-		$payment_type = 2;
+		$is_pre_auth = 1;
+		$payment_type = 3;
 		$data['delivery_cost'] = $delivery_cost;
 		$data['payment_type'] = $payment_type;
 		$data['pre_auth'] = $is_pre_auth;
@@ -288,7 +288,7 @@ class Jit extends CI_Controller {
 		{
 			if($courier_id == 'SAfceb761'){
 				$courier_name = 'FEDEX';
-				$courier_email = 'tosin.ibadu@redstarplc.com';
+				$courier_email = 'tibadu@redstarplc.com';
 			}else if($courier_id == 'SAed7352a'){
 				$courier_name = 'EDCR Courier';
 				$courier_email = 'penwe@edcregistrars.com';
@@ -296,10 +296,10 @@ class Jit extends CI_Controller {
 				$courier_name = "Courier Plus";
 				$courier_email = 'o.osideko@courierplus-ng.com';
 			}else if ($courier_id == 'SAf9fac5e'){
-				$courier_name = 'Ups';
+				$courier_name = 'UPS';
 				$courier_email = 'onweke@ups.com';
 			}else if($courier_id == 'SA505f6e8') {
-				$courier_name = 'Dhl';
+				$courier_name = 'DHL';
 				$courier_email = 'maria.edewor@dhl.com';
 			}else{
 				$courier_name = 'Courier';
@@ -317,13 +317,13 @@ class Jit extends CI_Controller {
 			    <table width="100%">
 			        <tr>
 			            <td colspan="6">
-			                <div style="background-color: #2d0700;
+			                <div style="background-color: #f3f3f3;
 			                        width:100%; height:100px; border-bottom: solid 3px #000000; padding:20px 0">
 			                    <table>
 			                        <tr>
 			                            <td width="5%"></td>
 			                            <td width="60%">
-			                                <h1 style="color:#fff; font-size:36px; font-weight: normal">Congratulations!</h1>
+			                                <h1 style="color:#fff; font-size:36px; font-weight: normal"></h1>
 			                            </td>
 			                            <td width="30%">
 			                                <img src="'.base_url().'/saddleng/img/logo.png" />
@@ -338,25 +338,42 @@ class Jit extends CI_Controller {
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
 			                <p>
-			                    Dear <strong> Merchant </strong>,<br /><br />
-			                    you have completed a “send package” request on Saddle. You can track your order using your transaction ID: '.$order_id.'. You can expect your product(s) delivered within the next 24hours. Your order details are as follows;.
+			                    Dear <strong> '.$merchant_name.' </strong>,<br /><br />
+			                    Your SendPackage request has been received and is being processed
+								Our rep, will contact you to pick up your item(s) within 24 hours. You can track your package with ID: '.$order_id.' on Saddle  http://new.saddleng.com .
 			                </p>
 			            </td>
-			        </tr>
+					</tr>
+
 
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
-			               Pickup Information
+			              YOUR ORDER DETAILS
 			            </td>
-			        </tr>
+					</tr>
+					
+					<tr>
+						<td colspan="6" style="padding:10px 20px;">
+						Delivery Information:
+						</td>
+					</tr>
 
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
-			                <table width="100%">
+							<table width="100%">
+								<tr>
+									<td width="40%" height="30">Name</td>
+									<td width="60%">
+										<div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+											'.$customer_name.'
+										</div>
+									</td>
+								
+								</tr>
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
 			                                '.$customer_address.'
 			                            </div>
 			                        </td>
@@ -365,7 +382,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Phone</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
 			                               '.$customer_contact.'
 			                            </div>
@@ -375,9 +392,9 @@ class Jit extends CI_Controller {
 		                        <tr>
 			                        <td width="40%" height="30">State</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_state.'
+			                                '.$delivery_state.'
 			                            </div>
 			                        </td>
 			                        
@@ -385,9 +402,9 @@ class Jit extends CI_Controller {
 								<tr>
 			                        <td width="40%" height="30">LGA</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_lga.'
+			                                '.$delivery_lga.'
 			                            </div>
 			                        </td>
 			                        
@@ -409,6 +426,7 @@ class Jit extends CI_Controller {
 									<td><strong>WEIGHT</strong></td>
 									<td>&nbsp;</td>
 								</tr>';
+
 								
 								for($i=0; $i<$item_count; $i++)
 								{	
@@ -437,7 +455,7 @@ class Jit extends CI_Controller {
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
-								For more information and support, please call 08099990660
+								You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
 								</p>
 							</td>
 						</tr>
@@ -507,7 +525,7 @@ class Jit extends CI_Controller {
 			    <table width="100%">
 			        <tr>
 			            <td colspan="6">
-			                <div style="background-color: #2d0700;
+			                <div style="background-color: #bcc0c6;
 			                        width:100%; height:100px; border-bottom: solid 3px #000000; padding:20px 0">
 			                    <table>
 			                        <tr>
@@ -541,8 +559,6 @@ class Jit extends CI_Controller {
 					</tr>
 					
 
-
-
 					<tr>
 			            <td colspan="6" style="padding:10px 20px;">
 			               Pickup Information
@@ -551,11 +567,20 @@ class Jit extends CI_Controller {
 
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
-			                <table width="100%">
+							<table width="100%">
+								<tr>
+									<td width="40%" height="30">Name</td>
+									<td width="60%">
+										<div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+											'.$merchant_name.'
+										</div>
+									</td>
+								
+								</tr>
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
 			                                '.$merchant_address.'
 			                            </div>
 			                        </td>
@@ -564,7 +589,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Phone</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
 			                               '.$merchant_contact.'
 			                            </div>
@@ -574,9 +599,9 @@ class Jit extends CI_Controller {
 		                        <tr>
 			                        <td width="40%" height="30">State</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_state.'
+			                                '.$pickup_state.'
 			                            </div>
 			                        </td>
 			                        
@@ -584,9 +609,9 @@ class Jit extends CI_Controller {
 								<tr>
 			                        <td width="40%" height="30">LGA</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_lga.'
+			                                '.$pickup_lga.'
 			                            </div>
 			                        </td>
 			                        
@@ -594,7 +619,6 @@ class Jit extends CI_Controller {
 			                </table>
 			            </td>
 			        </tr>
-
 
 
 
@@ -606,11 +630,20 @@ class Jit extends CI_Controller {
 
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
-			                <table width="100%">
+							<table width="100%">
+								<tr>
+			                        <td width="40%" height="30">Name</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                                '.$customer_name.'
+			                            </div>
+			                        </td>
+			                      
+			                    </tr>
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
 			                                '.$customer_address.'
 			                            </div>
 			                        </td>
@@ -619,7 +652,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Phone</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
 			                               '.$customer_contact.'
 			                            </div>
@@ -629,9 +662,9 @@ class Jit extends CI_Controller {
 		                        <tr>
 			                        <td width="40%" height="30">State</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_state.'
+			                                '.$delivery_state.'
 			                            </div>
 			                        </td>
 			                        
@@ -639,9 +672,9 @@ class Jit extends CI_Controller {
 								<tr>
 			                        <td width="40%" height="30">LGA</td>
 			                        <td width="60%">
-			                            <div style="background-color:#2d0700; color: #fff; height:30px; line-height:30px;
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_lga.'
+			                                '.$delivery_lga.'
 			                            </div>
 			                        </td>
 			                        
@@ -692,7 +725,7 @@ class Jit extends CI_Controller {
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
-								For more information and support, please call  08099990660
+								You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
 								</p>
 							</td>
 						</tr>
@@ -738,6 +771,113 @@ class Jit extends CI_Controller {
 			$semail = $this->email->subject('Order on Saddle Send Package');
 
 			$sent  = $this->email->message($courier_message);
+			$this->email->send($sent);
+
+
+			$receiver_email_message = '<!DOCTYPE html>
+			<html>
+			<head lang="en">
+			    <meta charset="UTF-8">
+			    <title></title>
+			</head>
+			<body style="background-color: #f3f3f3; padding: 0; margin: 0;font-family: \'Calibri\', Arial, sans-serif;">
+			<div class="outer-div" style="margin: 0 auto; width:600px;background-color: #fff;">
+			    <table width="100%">
+			        <tr>
+			            <td colspan="6">
+			                <div style="background-color: #bcc0c6;
+			                        width:100%; height:100px; border-bottom: solid 3px #000000; padding:20px 0">
+			                    <table>
+			                        <tr>
+			                            <td width="5%"></td>
+
+			                            <td width="30%">
+			                                <img src="'.base_url().'/saddleng/img/logo.png" />
+			                            </td>
+			                            <td width="5%"></td>
+			                        </tr>
+			                    </table>
+			                </div>
+			            </td>
+			        </tr>
+
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			                <p>
+			                    Dear <strong> '.$customer_name.' </strong>,<br /><br />
+								Please be informed that a package is on its way to you. 
+								
+			                </p>
+			            </td>
+			        </tr>
+			        <tr>
+			            <td colspan="" style="padding:10px 20px;">
+			                Order No: 
+			            </td>
+
+			            <td colspan="" style="padding:10px 20px;"> '.$order_id.'
+			            </td>
+					</tr>
+					<tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			                <p>
+								Visit http://new.saddleng.com to track your package.
+			                </p>
+			            </td>
+			        </tr>
+					
+
+					
+			      
+					<tr>
+						<td colspan="6" style="padding:10px 20px;">
+							<p style="text-align: center">
+							You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
+							</p>
+						</td>
+					</tr>
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px; border-top: solid 1px #ccc;">
+			                <table width="100%">
+			                    <tr>
+			                        <td width="60%">
+			                            <p style="font-size:13px; color: #333;line-height: 30px">
+			                                &copy; 2018, All rights reserved. Saddle
+			                            </p>
+			                        </td>
+
+			                        <td width="40%">
+			                            <a target="_blank" href="https://twitter.com/saddle"><img src="'.base_url().'assets/img/twitter.jpg" style="float:right; margin-left: 5px;" /></a>
+			                            <a target="_blank" href="https://www.facebook.com/saddle"><img src="'.base_url().'assets/img/facebook.jpg" style="float:right; margin-left: 5px;" /></a>
+			                        </td>
+			                    </tr>
+			                </table>
+			            </td>
+			        </tr>
+			    </table>
+			</div>
+			</body>
+			</html>
+		   ';
+
+		    $customer_message = ($receiver_email_message);
+
+
+			$conf['mailtype'] = "html";
+
+			$cemail = $this->email->initialize($config);
+
+			$femail = $this->email->from(AdminEmail, AdminEmailName);
+
+			//$femail = $this->email->from("manieabiodun@gmail.com", "Manie Joh");
+								 
+			//$this->email->to($shippingDetail->email);
+			$temail = $this->email->to($customer_email, $customer_name);
+
+
+			$semail = $this->email->subject('Order on Saddle Send Package');
+
+			$sent  = $this->email->message($customer_message);
 			$this->email->send($sent);
 
 			$this->load->view('layouts/header');
