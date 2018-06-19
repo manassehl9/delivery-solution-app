@@ -81,5 +81,18 @@ class Jit_model extends CI_Model{
         $this->db->where('transaction_id', $data);
         $this->db->update('transactions');
     }
+
+    public function get_transaction($where)
+    {
+        $this->db->select('transaction_id')->from('transactions');
+        $this->db->where(['transaction_id' => $where]);
+        $transaction = $this->db->get();
+        if($transaction->num_rows() > 0)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 ?>

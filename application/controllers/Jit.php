@@ -85,7 +85,13 @@ class Jit extends CI_Controller {
 		$merchant_details['merchant_address'] = $data['merchant_address'];
 		$merchant_details['merchant_state'] = $data['merchant_state'];
 		$merchant_details['merchant_lga'] = $data['merchant_lga'];
-		$this->jit_model->store_merchant($merchant_details);
+
+		// Checks if the transaction id already exists in the database
+		$transaction = $this->jit_model->get_transaction($_SESSION['order_id']);
+		if(!$transaction)
+		{
+			$this->jit_model->store_merchant($merchant_details);
+		}
 
     }
     
@@ -194,7 +200,7 @@ class Jit extends CI_Controller {
 		$order_id = $this->input->post('order_id');
 		$transaction_id =  $this->jit_model->update_transaction($order_id);
 	}
-	
+
 	public function courier()
 	{
 		$order_id = $_SESSION['order_id'];
