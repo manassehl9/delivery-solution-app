@@ -78,6 +78,7 @@ class Jit extends CI_Controller {
 		$_SESSION['transaction'] = $data;
 
 		// Store merchant details into the database
+		$merchant_details['transaction_id'] = $_SESSION['order_id'];
 		$merchant_details['merchant_name'] = $data['merchant_name'];
 		$merchant_details['merchant_contact'] = $data['merchant_contact'];
 		$merchant_details['merchant_email'] = $data['merchant_email'];
@@ -188,7 +189,12 @@ class Jit extends CI_Controller {
 		return $value->token;
 	}
 
-
+	public function update_transactions()
+	{
+		$order_id = $this->input->post('order_id');
+		$transaction_id =  $this->jit_model->update_transaction($order_id);
+	}
+	
 	public function courier()
 	{
 		$order_id = $_SESSION['order_id'];
@@ -256,7 +262,7 @@ class Jit extends CI_Controller {
 			'country'			=> 'Nigeria',
 		);
 		$data['POD'] = 0;
-		$is_pre_auth = 1;
+		$is_pre_auth = 0;
 		$payment_type = 3;
 		$data['delivery_cost'] = $delivery_cost;
 		$data['payment_type'] = $payment_type;
@@ -289,9 +295,6 @@ class Jit extends CI_Controller {
 			if($courier_id == 'SAfceb761'){
 				$courier_name = 'FEDEX';
 				$courier_email = 'tibadu@redstarplc.com';
-			}else if($courier_id == 'SAed7352a'){
-				$courier_name = 'EDCR Courier';
-				$courier_email = 'penwe@edcregistrars.com';
 			}else if($courier_id == 'SA493a731'){
 				$courier_name = "Courier Plus";
 				$courier_email = 'o.osideko@courierplus-ng.com';
@@ -300,7 +303,10 @@ class Jit extends CI_Controller {
 				$courier_email = 'onweke@ups.com';
 			}else if($courier_id == 'SA505f6e8') {
 				$courier_name = 'DHL';
-				$courier_email = 'maria.edewor@dhl.com';
+				$courier_email = 'nginquiry@dhl.com';
+			}else if($courier_id == 'SAa28a764'){
+				$courier_name = 'Skynet';
+				$courier_email = 'dare.onigbinde@skynet.com';
 			}else{
 				$courier_name = 'Courier';
 				$courier_email = '';
@@ -865,17 +871,17 @@ class Jit extends CI_Controller {
 
 			$conf['mailtype'] = "html";
 
-			$cemail = $this->email->initialize($config);
+			$conemail = $this->email->initialize($config);
 
-			$femail = $this->email->from(AdminEmail, AdminEmailName);
+			$frmemail = $this->email->from(AdminEmail, AdminEmailName);
 
 			//$femail = $this->email->from("manieabiodun@gmail.com", "Manie Joh");
 								 
 			//$this->email->to($shippingDetail->email);
-			$temail = $this->email->to($customer_email, $customer_name);
+			$toemail = $this->email->to($customer_email, $customer_name);
 
 
-			$semail = $this->email->subject('Order on Saddle Send Package');
+			$subemail = $this->email->subject('Order on Saddle Send Package');
 
 			$sent  = $this->email->message($customer_message);
 			$this->email->send($sent);

@@ -30,28 +30,28 @@
                                 <div class="form-bottom">
                                 <div id="dynamic_field">
                                   <br>
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group  col-md-6 col-xs-6">
                                     <label class="control-label">Item Name:</label>
                                     <input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name">
                                   </div>
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group  col-md-6 col-xs-6">
                                     <label class="control-label">Item Quantity:</label>
                                     <input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity">
                                   </div>
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group  col-md-6 col-xs-6">
                                     <label class="control-label">Item Weight(KG):</label>
                                     <input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight">
                                   </div>
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group  col-md-6 col-xs-6">
                                     <label class="control-label">Cost of Item:</label>
                                     <input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price">
                                   </div>
 
                                  
                                </div>
-                               <hr>
-                               <button type="button" class="btn btn-add" >Add Another Item</button>
-                               <button type="button" class="btn btn-next" style="float:right">Next</button>
+                               <hr>                        
+                               <button type="button" class="btn btn-add" ><span style="font-size: 40px;" class="glyphicon glyphicon-plus"></span></button>
+                               <button type="button" class="btn btn-next" style="float:right">Next</button>                           
                               </div>
                             
                             </fieldset>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="form-bottom">
                                 
-                                <div class="form-group col-md-6">
+                                <div class="form-group  col-md-6">
                                 <legend style="width:auto">Sender Details:</legend>
                                   <div class="form-group col-md-12">
                                     <label class="control-label">Sender Name:</label>
@@ -198,15 +198,15 @@
                                
                                     <div class="form-group col-md-12">
                                         <label class="control-label">Item Cost:</label>
-                                        <input type="text" value="0.00" class="form-control" id="item_cost">
+                                        <input type="text" value="0.00" class="form-control" id="item_cost" disabled>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label class="control-label">Delivery Fee:</label>
-                                        <input type="text" value="0.00" class="form-control" id="shipping_cost">
+                                        <input type="text" value="0.00" class="form-control" id="shipping_cost" disabled>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label class="control-label">Total Payment:</label>
-                                        <input type="text" value="0.00" class="form-control" id="total_amount">
+                                        <input type="text" value="0.00" class="form-control" id="total_amount" disabled>
                                     </div>
                                     <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
                                 </div>

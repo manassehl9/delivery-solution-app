@@ -73,7 +73,13 @@ class Jit_model extends CI_Model{
     {
         $this->db->insert('transactions', $data);
         return $this->db->insert_id();
+    }
 
+    public function update_transaction($data)
+    {
+        $this->db->set('transaction_status', 'successful');
+        $this->db->where('transaction_id', $data);
+        $this->db->update('transactions');
     }
 }
 ?>
