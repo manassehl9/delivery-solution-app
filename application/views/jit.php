@@ -28,8 +28,7 @@
                                 </div>
                                 </div>
                                 <div class="form-bottom">
-                                <div id="dynamic_field">
-                                  <br>
+                                <div style="border: 1px solid #F69147;" id="dynamic_field"  id="row">
                                   <div class="form-group  col-md-6 col-xs-6">
                                     <label class="control-label">Item Name:</label>
                                     <input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name">
@@ -46,7 +45,7 @@
                                     <label class="control-label">Cost of Item:</label>
                                     <input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price">
                                   </div>
-
+                                  <button type="button" id="0" class="btn  btn-danger btn_remove">Delete</button><br><br>
                                  
                                </div>
                                <hr>                        

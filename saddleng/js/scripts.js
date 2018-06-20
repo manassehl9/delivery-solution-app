@@ -1,17 +1,18 @@
 jQuery(document).ready(function() {
-
-	var i = 1;
+	window.onbeforeunload = function() { return "You may loose all data. Kindly click on the previous button"; };
+	var i = 0;
 	$(".registration-form .btn-add").on("click", function() {
 		i++;
-		$('#dynamic_field').append('<div id="dynamic_field" id="row'+i+'"><div class="form-group col-md-6 col-xs-6"  id="item_name'+i+'"><label class="control-label">Item Name:</label><input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name"></div><div class="form-group col-md-6 col-xs-6"  id="item_quantity'+i+'"><label class="control-label">Item Quantity:</label><input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity"></div><div class="form-group col-md-6 col-xs-6" id="item_weight'+i+'"><label class="control-label">Item Weight(KG):</label><input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight"></div><div class="form-group col-md-6 col-xs-6" id="item_price'+i+'"><label class="control-label">Cost Of Item:</label><input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price"></div><button type="button" id="'+i+'" class="btn  btn-danger btn_remove">Delete</button></div>');
+		$('#dynamic_field').append('<div style="border: 1px solid #F69147;" id="dynamic_field'+i+'" id="row'+i+'"><br><div class="form-group col-md-6 col-xs-6"  id="item_name'+i+'"><label class="control-label">Item Name:</label><input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name"></div><div class="form-group col-md-6 col-xs-6"  id="item_quantity'+i+'"><label class="control-label">Item Quantity:</label><input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity"></div><div class="form-group col-md-6 col-xs-6" id="item_weight'+i+'"><label class="control-label">Item Weight(KG):</label><input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight"></div><div class="form-group col-md-6 col-xs-6" id="item_price'+i+'"><label class="control-label">Item price:</label><input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price"></div><button type="button" id="'+i+'" class="btn  btn-danger btn_remove">Delete</button><br><br></div>');
 	});
 	$(document).on('click', '.btn_remove', function() {
 		var button_id = $(this).attr("id");
-		$("#item_name"+button_id+"").remove();
-		$("#item_quantity"+button_id+"").remove();
-		$("#item_weight"+button_id+"").remove();
-		$("#item_price"+button_id+"").remove();
-		$("#"+button_id+"").hide();
+		$("#dynamic_field"+button_id+"").remove();
+		// $("#item_name"+button_id+"").remove();
+		// $("#item_quantity"+button_id+"").remove();
+		// $("#item_weight"+button_id+"").remove();
+		// $("#item_price"+button_id+"").remove();
+		// $("#"+button_id+"").hide();
 	});
 
 	$("#netplus-pay").click(function (e) {
