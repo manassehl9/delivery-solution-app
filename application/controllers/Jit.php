@@ -6,8 +6,8 @@ class Jit extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->library('session'); 
-
+		$this->load->library('session'); 
+		
         $this->load->model('jit_model');
     }
 	public function index()
@@ -244,7 +244,7 @@ class Jit extends CI_Controller {
 
 		header("Content-type: text/x-csv");
 		header("Content-Disposition: attachment; filename=".$csv_filename."");
-
+		echo($csv_export);
 	}
 
 	public function courier()
