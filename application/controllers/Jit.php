@@ -128,7 +128,6 @@ class Jit extends CI_Controller {
 		}else{
 			$courier_id = '';
 		}
-		
 
 		$item_price = $_SESSION['transaction']['item_price'];
 		$pickup_state = $_SESSION['transaction']['merchant_state'];
@@ -210,8 +209,8 @@ class Jit extends CI_Controller {
 
 		// database variables
 		$hostname = "localhost";
-		$user = "root";
-		$password = "netplus";
+		$user = "jitsaddleuser";
+		$password = "j!tU53r";
 		$database = "jitsaddle";
 		$port = 3306;
 	
