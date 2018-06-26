@@ -1,11 +1,14 @@
 <?php
 
 $config = [
-    'tempdir' => '/home/dapo/Dev/web/saddlejit/cronjobs/temp/',
+    // 'tempdir' => '/home/deploy/apps/saddlejit/current/cronjobs/temp/',
+    // 'autoloadpath' => '/home/deploy/apps/saddlejit/current/vendor/autoload.php',
+    'tempdir' => '/home/deploy/apps/saddlejit/current/cronjobs/temp/',
+    'autoloadpath' => '/home/deploy/apps/saddlejit/current/vendor/autoload.php',
     "db" => [
         "hostname" => "localhost",
-	    "user" => "jitsaddleuser",
-	    "password" => "j!tU53r",
+	"user" => "jitsaddleuser",
+        "password" => "j!tU53r",
         "database" => "jitsaddle",
         "port" => 3306
     ],

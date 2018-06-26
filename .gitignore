@@ -7,6 +7,7 @@ application/logs/*
 !application/logs/index.html
 
 !application/*/.htaccess
+cronjobs/temp/
 
 composer.lock
 
@@ -31,6 +32,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 .editorconfig
+
 
 Capfile
 config/

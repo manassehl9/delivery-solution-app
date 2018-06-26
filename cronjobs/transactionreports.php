@@ -1,7 +1,6 @@
 <?php
-
-require_once "../vendor/autoload.php";
-include './config.php';
+include 'config.php';
+require_once $config['autoloadpath'];
 
 $q = 'SELECT 
         t.merchant_name as "Merchant Name", 
@@ -60,11 +59,11 @@ fwrite($fh, $csv_export) or die("Could not write to file");
 fclose($fh);
 
 $message = (new Swift_Message())
-              ->setSubject('Monthy Transactions Report for '.date('F, Y'))
+              ->setSubject('2 day Send Package Transactions Report '.date('jS, F, Y'))
               ->setFrom($config['smtp']['from'])
               ->setTo($config['smtp']['to'])
-              ->setBody('Please find attached transactions for the month of '.date('F, Y'))
-              ->addPart('<q>Please find attached the transactions for the month of '.date('F, Y').'</q>','text/html')
+              ->setBody('Please find attached the 2 day Send Package transactions report -'.date('jS, F, Y'))
+              ->addPart('<q>Please find attached the 2 day Send Package transactions report - '.date('jS, F, Y').'</q>','text/html')
               ->attach(Swift_Attachment::fromPath($attachmentPath));
 
 $transport = (new Swift_SmtpTransport($config['smtp']['server'],$config['smtp']['port']))
