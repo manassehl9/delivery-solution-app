@@ -7,8 +7,8 @@ $config = [
     'autoloadpath' => '/home/deploy/apps/saddlejit/current/vendor/autoload.php',
     "db" => [
         "hostname" => "localhost",
-	"user" => "jitsaddleuser",
-        "password" => "j!tU53r",
+	    "user" => "jituser",
+        "password" => "j!t54ddl3U53r",
         "database" => "jitsaddle",
         "port" => 3306
     ],
