@@ -45,7 +45,7 @@
                                     <label class="control-label">Cost of Item:</label>
                                     <input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price">
                                   </div>
-                                  <button type="button" id="0" class="btn  btn-danger btn_remove">Delete</button><br><br>
+                                  <button type="button" id="mybutton" class="btn"></button>
                                  
                                </div>
                                <hr>                        

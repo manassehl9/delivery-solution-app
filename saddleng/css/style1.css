@@ -35,15 +35,17 @@
 .btn-link-2:active, .btn-link-2:active:focus { outline: 0; opacity: 0.6; background: rgba(0, 0, 0, 0.3); color: #fff; }
 
 
-
+#mybutton {
+	background-color: #EEEEEE;
+}
 
 
 /***** Top content *****/
-
+/* 
 #package {
     min-height: 591px;
 	padding: 120px 0 50px 0;
-}
+} */
 
 #package h1{
 	font-size: 1.5em;
@@ -112,9 +114,9 @@ form .form-bottom textarea {
 	height: 100px;
 }
 
-form .form-bottom button.btn {
-	min-width: 105px;
-}
+/* form .form-bottom button.btn {
+	padding-top: 4px;
+} */
 
 form .form-bottom .input-error {
 	border-color: #F69147;
@@ -144,7 +146,6 @@ form .select {
 	.top-content .top-big-link a.btn { margin-top: 10px; }
 	
 	.form-bottom { padding-bottom: 25px; }
-	form .form-bottom button.btn { margin-bottom: 5px; }
 
 }
 
