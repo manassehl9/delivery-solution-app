@@ -23,14 +23,25 @@
     <link rel="stylesheet" href="/saddleng/css/form-elements.css">
     <link rel="stylesheet" href="/saddleng/css/style1.css">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/saddleng/js/scripts.js"></script>
+
+    <script>
+      var i = 0;
+	    function insertItem(elementId) {
+		    ++i;
+		    $('<div style="border-top: 1px solid lightgray;" id="dynamic_field'+i+'" id="row'+i+'"><br><br><br><div class="form-group col-md-6 col-xs-6"  id="item_name'+i+'"><label class="control-label">Item Name:</label><input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name"></div><div class="form-group col-md-6 col-xs-6"  id="item_quantity'+i+'"><label class="control-label">Item Quantity:</label><input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity"></div><div class="form-group col-md-6 col-xs-6" id="item_weight'+i+'"><label class="control-label">Item Weight(KG):</label><input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight"></div><div class="form-group col-md-6 col-xs-6" id="item_price'+i+'"><label class="control-label">Item price:</label><input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price"></div><a class="btn btn-add" style="color: #F69147;" id="add-item" title="Add new item" href="javascript: insertItem(\'dynamic_field'+i+'\')">Add Item</a> <span>|</span><a class="btn btn_remove" style="color: #F69147;" id='+i+' >Delete</a><br><br></div>').insertAfter('#'+elementId);
+      }
+      $(document).on('click', '.btn_remove', function() {
+        var button_id = $(this).attr("id");
+        $("#dynamic_field"+button_id+"").remove();
+      });
+    </script>
   </head>
 
   <body>

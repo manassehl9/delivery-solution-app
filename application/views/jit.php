@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 form-box">
                           
-                          <form role="form" action="#" method="post" class="registration-form">
+                          <form role="form" action="<?php echo base_url(); ?>jit/netpluspay" method="post" class="registration-form">
                         
                             <fieldset>
                               <div class="form-top">
@@ -29,30 +29,32 @@
                                 </div>
                                 <div class="form-bottom">
                                 <div id="dynamic_field"  id="row">
-                                  <div class="form-group  col-md-6 col-xs-6">
+                                  <div class="form-group col-md-6 col-xs-6">
+                                    <br>
                                     <label class="control-label">Item Name:</label>
                                     <input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name">
                                   </div>
-                                  <div class="form-group  col-md-6 col-xs-6">
+                                  <div class="form-group col-md-6 col-xs-6">
+                                    <br>
                                     <label class="control-label">Item Quantity:</label>
                                     <input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity">
                                   </div>
-                                  <div class="form-group  col-md-6 col-xs-6">
+                                  <div class="form-group col-md-6 col-xs-6">
                                     <label class="control-label">Item Weight(KG):</label>
                                     <input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight">
                                   </div>
-                                  <div class="form-group  col-md-6 col-xs-6">
+                                  <div class="form-group col-md-6 col-xs-6">
                                     <label class="control-label">Cost of Item:</label>
                                     <input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price">
                                   </div>
-                                  <button type="button" id="mybutton" class="btn"></button>
-                                 
-                               </div>
-                               <hr>                        
-                               <button type="button" class="btn btn-add" ><span style="font-size: 40px;" class="glyphicon glyphicon-plus"></span></button>
-                               <button type="button" class="btn btn-next" style="float:right">Next</button>                           
+                              
+                                <!-- <button type="button" class="btn btn-add" >Add Another Item</button> -->
+                                <a class="btn btn-add" id="add-item" title="Add new item" href="javascript:insertItem('dynamic_field')" style="color: #E27F2C;">Add Item</a> 
+                                </div>
+                                <div class='form-footer'>
+                                  <a class="btn btn-next" style="float:right; margin-top: -40px; color: #F69147;">Next<span><i class="material-icons">forward</i></span></a>
+                               </div>                      
                               </div>
-                            
                             </fieldset>
                           
                           <fieldset>
@@ -68,7 +70,7 @@
                                 
                                 <div class="form-group  col-md-6">
                                 <legend style="width:auto">Sender Details:</legend>
-                                  <div class="form-group col-md-12">
+                                  <div class="form-group  col-md-12">
                                     <label class="control-label">Sender Name:</label>
                                     <input type="text" name="merchant_name" placeholder="Name" class="merchant_name form-control" id="merchant_name">
                                   </div>
@@ -157,9 +159,8 @@
                                   </div>
                                   
                                 </div>
-                                <button type="button" class="btn btn-previous">Previous</button>
-                                <button type="button" class="btn btn-next">Next</button>
-                                
+                                <a class="btn btn-previous" title="Back" style="color: #F69147;"><span><i class="material-icons">fast_rewind</i></span>Previous</a> 
+                                <a class="btn btn-next" title="Next" style="color: #F69147;">Next<span><i class="material-icons">forward</i></span></a> 
                             </div>
                           </fieldset>
 
@@ -214,8 +215,9 @@
                               <br>
                               <hr>
                               
-                              <button type="button" class="btn btn-previous">Previous</button>                            
-                              <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button>
+                              <a class="btn btn-previous" title="Back" style="color: #F69147;"><span><i class="material-icons">fast_rewind</i></span>Previous</a> 
+                              <a class="btn" title="Send your package" style="display:none; color: #F69147;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package!</a>                           
+                             <!-- <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button> -->
                               
                           </fieldset>
                         

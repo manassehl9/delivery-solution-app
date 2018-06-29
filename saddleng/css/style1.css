@@ -85,6 +85,7 @@
 	text-align: left;
 }
 
+
 .form-top-left {
 	float: left;
 	width: 75%;
@@ -167,4 +168,30 @@ only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
 
 	
+}
+
+/* add new code */
+#netplus-pay:hover{
+	transition: all ease-in-out 0.2s;
+	cursor: pointer;
+	font-weight: bold;
+	background-color: #FF672C; 
+    color: white !important; 
+	border: 1px solid #FF672C;
+	border-radius: 6px; 
+	font-family: 'Encode Sans Condensed', sans-serif;
+	
+}
+
+#netplus-pay {
+	color: black;
+	background: transparent; 
+	font-family: 'Encode Sans Condensed', sans-serif;
+	font-size: 20px;
+}
+
+
+.btn {
+	font-family: 'Encode Sans Condensed', sans-serif;
+	font-size: 20px;
 }
