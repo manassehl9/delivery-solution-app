@@ -187,11 +187,11 @@ only screen and (                min-resolution: 2dppx) {
 	color: black;
 	background: transparent; 
 	font-family: 'Encode Sans Condensed', sans-serif;
-	font-size: 20px;
+	font-size: 15px;
 }
 
 
 .btn {
 	font-family: 'Encode Sans Condensed', sans-serif;
-	font-size: 20px;
+	font-size: 15px;
 }

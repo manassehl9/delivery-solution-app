@@ -69,7 +69,7 @@
                                 <div class="form-bottom">
                                 
                                 <div class="form-group  col-md-6">
-                                <legend style="width:auto">Sender Details:</legend>
+                                <h2 style="width:auto">Sender Details:</h2><br>
                                   <div class="form-group  col-md-12">
                                     <label class="control-label">Sender Name:</label>
                                     <input type="text" name="merchant_name" placeholder="Name" class="merchant_name form-control" id="merchant_name">
@@ -111,7 +111,7 @@
                                   </div>
                                 </div>
                                 
-                                <legend>Reciever Details:</legend>
+                                <h2>Reciever Details:</h2><br>
                                 <div class="form-group col-md-6">
                                  
                                   <div class="form-group col-md-12">
@@ -159,9 +159,10 @@
                                   </div>
                                   
                                 </div>
-                                <a class="btn btn-previous" title="Back" style="color: #F69147;"><span><i class="material-icons">fast_rewind</i></span>Previous</a> 
-                                <a class="btn btn-next" title="Next" style="color: #F69147;">Next<span><i class="material-icons">forward</i></span></a> 
+                                <a class="btn btn-previous" title="Back" style="color: #F69147;">Previous</a> 
+                                <a class="btn btn-next" title="Next" style="color: #F69147; float:right;">Next<span><i class="material-icons">forward</i></span></a> 
                             </div>
+                            <br><br>
                           </fieldset>
 
                           <fieldset>
@@ -215,10 +216,10 @@
                               <br>
                               <hr>
                               
-                              <a class="btn btn-previous" title="Back" style="color: #F69147;"><span><i class="material-icons">fast_rewind</i></span>Previous</a> 
-                              <a class="btn" title="Send your package" style="display:none; color: #F69147;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package!</a>                           
+                              <a class="btn btn-previous" title="Back" style="color: #F69147;">Previous</a> 
+                              <a class="btn" title="Send your package" style="display:none; color: #F69147; float:right;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package</a>                           
                              <!-- <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button> -->
-                              
+                              <br><br>
                           </fieldset>
                         
                         </form>
