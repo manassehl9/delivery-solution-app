@@ -49,10 +49,10 @@
                                   </div>
                               
                                 <!-- <button type="button" class="btn btn-add" >Add Another Item</button> -->
-                                <a class="btn btn-add" id="add-item" title="Add new item" href="javascript:insertItem('dynamic_field')" style="color: #E27F2C;">Add Item</a> 
+                                <a class="btn btn-add" id="add-item" title="Add new item" href="javascript:insertItem('dynamic_field')" style="color: #F69147;">Add Item</a> 
                                 </div>
                                 <div class='form-footer'>
-                                  <a class="btn btn-next" style="float:right; margin-top: -40px; color: #F69147;">Next<span><i class="material-icons">forward</i></span></a>
+                                  <a class="btn btn-next" style="float:right; margin-top: -40px; color: #F69147;">Next<span><i class="material-icons" style='font-size: 17px;margin-top: -2px;'>arrow_forward_ios</i></span></a>
                                </div>                      
                               </div>
                             </fieldset>
@@ -159,8 +159,8 @@
                                   </div>
                                   
                                 </div>
-                                <a class="btn btn-previous" title="Back" style="color: #F69147;">Previous</a> 
-                                <a class="btn btn-next" title="Next" style="color: #F69147; float:right;">Next<span><i class="material-icons">forward</i></span></a> 
+                                <a class="btn btn-previous" title="Back" style="color: #F69147;margin-left: 21px">Previous</a> 
+                                <a class="btn btn-next" title="Next" style="color: #F69147; float:right; margin-right: 14px">Next<span><i class="material-icons" style="font-size: 17px;margin-top: -2px;">arrow_forward_ios</i></span></a> 
                             </div>
                             <br><br>
                           </fieldset>
@@ -216,8 +216,8 @@
                               <br>
                               <hr>
                               
-                              <a class="btn btn-previous" title="Back" style="color: #F69147;">Previous</a> 
-                              <a class="btn" title="Send your package" style="display:none; color: #F69147; float:right;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package</a>                           
+                              <a class="btn btn-previous" title="Back" style="color: #F69147; margin-left: 29px">Previous</a> 
+                              <a class="btn" title="Send your package" style="display:none; color: #F69147; float:right; margin-right: 25px;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package</a>                           
                              <!-- <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button> -->
                               <br><br>
                           </fieldset>

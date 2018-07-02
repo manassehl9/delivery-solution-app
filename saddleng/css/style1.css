@@ -175,9 +175,9 @@ only screen and (                min-resolution: 2dppx) {
 	transition: all ease-in-out 0.2s;
 	cursor: pointer;
 	font-weight: bold;
-	background-color: #FF672C; 
+	background-color: rgb(246, 145, 71); 
     color: white !important; 
-	border: 1px solid #FF672C;
+	border: 1px rgb(246, 145, 71);
 	border-radius: 6px; 
 	font-family: 'Encode Sans Condensed', sans-serif;
 	
