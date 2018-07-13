@@ -18,18 +18,18 @@
     <title>Saddle</title>
 
     <!-- Bootstrap -->
-    <link href="http://localhost/netplus-saddlejit/saddleng/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://localhost/netplus-saddlejit/saddleng/css/style.css" rel="stylesheet">
-    <link href="http://localhost/netplus-saddlejit/saddleng/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://localhost/netplus-saddlejit/saddleng/css/form-elements.css">
-    <link rel="stylesheet" href="http://localhost/netplus-saddlejit/saddleng/css/style1.css">
+    <link href="/saddleng/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/saddleng/css/style.css" rel="stylesheet">
+    <link href="/saddleng/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/saddleng/css/form-elements.css">
+    <link rel="stylesheet" href="/saddleng/css/style1.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://localhost/netplus-saddlejit/saddleng/js/scripts.js"></script>
+    <script src="/saddleng/js/scripts.js"></script>
 
     <script>
       var i = 0;
@@ -61,7 +61,7 @@
 
           <a class="navbar-brand" href="#">
             <div class="logo">
-              <a href="http://new.saddleng.com"><img src="http://localhost/netplus-saddlejit/saddleng/img/logo.png"/> </a>
+              <a href="http://new.saddleng.com"><img src="/saddleng/img/logo.png"/> </a>
             </div>
           </a>
 
