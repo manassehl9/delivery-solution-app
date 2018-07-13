@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+<<<<<<< HEAD
     <!-- Global site tag (gtag.js) - Google Analytics -->
+=======
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+>>>>>>> implementation of the coupon
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120827714-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -10,6 +14,7 @@
 
       gtag('config', 'UA-120827714-1');
     </script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">

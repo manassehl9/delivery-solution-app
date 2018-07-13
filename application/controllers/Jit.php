@@ -116,7 +116,22 @@ class Jit extends CI_Controller {
         $_SESSION['courier'] = $courier_name;
       
 		return $courier_name;
-    }
+	}
+	
+	public function get_coupon()
+	{
+		$date = date("Y-m-d");
+		$coupon_code = $this->input->post('coupon_code');
+		$coupon = $this->jit_model->get_coupon_value($date, $coupon_code);
+		
+		if($coupon){
+			$coupon_value = (float)$coupon->coupon_value;
+			echo json_encode(['coupon_value'=>$coupon_value]);
+		}else{
+			echo json_encode(['coupon_value' => 'Invalid coupon']);
+			
+		}
+	}
 
 
     public function shipping_method_price()

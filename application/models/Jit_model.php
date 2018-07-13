@@ -94,5 +94,22 @@ class Jit_model extends CI_Model{
             return false;
         }
     }
+
+    public function get_coupon_value($date, $details)
+    {
+        $this->db->select('coupon_value')->from('coupon');
+        $this->db->where('coupon_name', $details);
+        $this->db->where('start_date <=', $date);
+        $this->db->where('end_date >=', $date);
+        
+       
+        $coupon_value = $this->db->get();
+        if($coupon_value->num_rows() > 0)
+        {
+            return $coupon_value->row();
+        }else{
+            return false;
+        }
+    }
 }
 ?>

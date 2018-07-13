@@ -1,5 +1,6 @@
 jQuery(document).ready(function() {
 	window.onbeforeunload = function() { return "You may loose all data. Kindly click on the previous button"; };
+	$('#loader').hide();
 
 	$("#netplus-pay").click(function (e) {
 
@@ -85,7 +86,14 @@ jQuery(document).ready(function() {
 
 
 	$('#selectCourier').change(function(){
-		
+
+		$("#coupon_code").prop('disabled', false);
+		$('#coupon_code').val("");		
+		$('#loader').show();
+		hideInputField();
+		$('#coupon_text').hide();
+		$('#coupon_code').hide();
+
 		var item_name = new Array();
 		var item_price = new Array();
 		var item_quantity = new Array();
@@ -147,20 +155,32 @@ jQuery(document).ready(function() {
 								$('#item_cost').val(total_price);
 								var item_amount = $('#item_cost').val();
 								if(price.shipping_price > 0){
+									showInputField();
+									$('#coupon_text').show();
+									$('#coupon_code').show();
 									$('#netplus-pay').show();
 									$('#shipping_cost').val(price.shipping_price);
 									$('#total_amount').val(price.shipping_price);
 			
 								}else{
 									alert("No delivery quotes!!! Select a different shipping location");
+									showInputField();
+									$('#coupon_text').show();
+									$('#coupon_code').show();
 									$('#netplus-pay').hide();
 									$('#item_cost').val(total_price);
 									$('#shipping_cost').val('0.00');
 									$('#total_amount').val('0.00');
 								}
 							},
+							complete: function() {
+								$('#loader').hide();
+							},
 							error: function() {
 								alert("There was an error. Try again please!");
+								showInputField();
+								$('#coupon_text').show();
+								$('#coupon_code').show();
 							}
 						});
 					}
@@ -170,6 +190,108 @@ jQuery(document).ready(function() {
 		});
 		
 	});
+
+
+	//Coupon code
+	$('#coupon_code').keyup(function(e){
+		var coupon_code = this.value;
+		var coupon_len = coupon_code.length;
+		console.log(coupon_len);
+		
+		var selected_courier  = $('#selectCourier option').filter(':selected').text();
+		if(coupon_len < 6){
+
+		}else if(coupon_len == 6){
+			
+			if(selected_courier.toLowerCase() === 'Select Courier'.toLowerCase()){
+				alert("Select a courier");
+			}else{
+				$('#loader').show();
+				hideInputField();
+				$.ajax({
+					type: "GET",
+					url: "/jit/shipping_method_price/",
+					success: function(shipping_price)
+					{
+						var price = JSON.parse(shipping_price);
+						var item_amount = $('#item_cost').val();
+						if(price.shipping_price > 0){	
+
+							$.ajax({
+								type: "POST",
+								url: "/jit/get_coupon/",
+								data: {"coupon_code": coupon_code},
+								success: function(coupon_value){
+									var coupon = JSON.parse(coupon_value);
+									if(coupon.coupon_value > 0){
+										var coupon_value = coupon.coupon_value;
+										var delivery_fee = $('#shipping_cost').val();
+										var discount = parseFloat(delivery_fee) * parseFloat(coupon_value);
+										var new_delivery_fee = parseFloat(delivery_fee) - parseFloat(discount);
+										$("input").prop('disabled', true);
+										showInputField();
+										$('#shipping_cost').val(new_delivery_fee.toFixed(2));
+										$('#total_amount').val(new_delivery_fee.toFixed(2));
+										$('#netplus-pay').show();	
+									}else{
+										showInputField();
+										alert("invalid coupon");
+									}
+									
+								},
+								error: function(coupon_value)
+								{
+									alert("Error while loading");
+								}
+							});
+							
+						}else{
+							alert("No delivery quotes!!! Select a courier");
+							showInputField();
+							
+							$('#netplus-pay').hide();
+							$('#item_cost').val(item_amount);
+							$('#shipping_cost').val('0.00');
+							$('#total_amount').val('0.00');
+						}
+					},
+					complete: function() {
+						$('#loader').hide();
+						$('#shipping_cost').val();
+						$('#total_amount').val();
+						//$('#netplus-pay').show();
+	
+					},
+					error: function() {
+						alert("There was an error. Try again please!");
+					}
+				});
+			}
+			
+		}else{
+			console.log("invalid coupon");
+			alert("Invalid Coupon");
+		}	
+	});
+
+	function hideInputField() {
+		$('#item_cost').hide();
+		$('#shipping_cost').hide();
+		$('#total_amount').hide();
+		$('#item_cost_label').hide();
+		$('#shipping_cost_label').hide();
+		$('#total_amount_label').hide();
+	}
+
+	function showInputField() {
+		$('#item_cost_label').show();
+		$('#shipping_cost_label').show();
+		$('#total_amount_label').show();
+		$('#item_cost').show();
+		$('#shipping_cost').show();
+		$('#total_amount').show();
+	}
+
 	
     /*
         Fullscreen background

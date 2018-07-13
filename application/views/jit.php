@@ -176,8 +176,9 @@
                                 </div>
                               </div>
                                 <div class="form-bottom">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <div class="form-group col-md-6">
+                                        <label class="control-lable">Courier:</label>
                                         <select class="form-control select"  name="selectCourier" id="selectCourier">
                                             <option>Select Courier</option>
                                          <?php 
@@ -193,21 +194,39 @@
                                             ?>
                                         </select>
                                      </div>
+                                     
                                 </div>
                                 
                                 <div class="form-bottom">
-                               
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label">Item Cost:</label>
+                                  <div class="form-group col-md-12 col-md-offset-4" id="loader"> 
+                                    <svg width="200px"  height="200px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background: none;">
+                                        <circle cx="50" cy="50" r="10.7529" fill="none" ng-attr-stroke="{{config.c1}}" ng-attr-stroke-width="{{config.width}}" stroke="#F07B2C" stroke-width="2">
+                                          <animate attributeName="r" calcMode="spline" values="0;15" keyTimes="0;1" dur="0.9" keySplines="0 0.2 0.8 1" begin="-0.45s" repeatCount="indefinite"></animate>
+                                          <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="0.9" keySplines="0.2 0 0.8 1" begin="-0.45s" repeatCount="indefinite"></animate>
+                                        </circle>
+                                        <circle cx="50" cy="50" r="2.47627" fill="none" ng-attr-stroke="{{config.c2}}" ng-attr-stroke-width="{{config.width}}" stroke="#ffffff" stroke-width="2">
+                                          <animate attributeName="r" calcMode="spline" values="0;15" keyTimes="0;1" dur="0.9" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"></animate>
+                                          <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="0.9" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"></animate>
+                                        </circle>
+                                      </svg>
+                                  </div>
+                                  <div class="form-group col-md-12">
+                                        <label class="control-label" id="item_cost_label">Item Cost:</label>
                                         <input type="text" value="0.00" class="form-control" id="item_cost" disabled>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label class="control-label">Delivery Fee:</label>
+                                        <label class="control-label" id="shipping_cost_label">Delivery Fee:</label>
                                         <input type="text" value="0.00" class="form-control" id="shipping_cost" disabled>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label class="control-label">Total Payment:</label>
+                                        <label class="control-label"  id="total_amount_label">Total Payment:</label>
                                         <input type="text" value="0.00" class="form-control" id="total_amount" disabled>
+                                    </div><br>
+                                    <div class="form-group col-md-7" style="float:left;">
+                                      <p id="coupon_text" style="font-size:12px; font-weight:bold; margin-top: 15px;">Enter a valid promotional coupon code here for more savings</p>
+                                    </div>
+                                    <div class="form-group col-md-5" style="float:right;">
+                                      <input type="text" class="form-control" id="coupon_code" value="">
                                     </div>
                                     <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
                                 </div>
@@ -215,9 +234,8 @@
                               <br>
                               <br>
                               <hr>
-                              
-                              <a class="btn btn-previous" title="Back" style="color: #F69147; margin-left: 29px">Previous</a> 
-                              <a class="btn" title="Send your package" style="display:none; color: #F69147; float:right; margin-right: 25px;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package</a>                           
+                              <a class="btn btn-previous" title="Back" style="color: #F69147; margin-left: 29px; margin-top: 20px;">Previous</a> 
+                              <a class="btn" title="Send your package" style="display:none; color: #F69147; float:right; margin-right: 25px; margin-top: 20px;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package</a>                           
                              <!-- <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button> -->
                               <br><br>
                           </fieldset>
@@ -230,6 +248,3 @@
             </div>
             
         </div>
-    </section>
-
-
