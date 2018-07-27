@@ -193,15 +193,15 @@ jQuery(document).ready(function() {
 
 
 	//Coupon code
-	$('#coupon_code').keyup(function(e){
+	$('#coupon_code').on("input", function(e){
 		var coupon_code = this.value;
 		var coupon_len = coupon_code.length;
 		console.log(coupon_len);
-		
-		var selected_courier  = $('#selectCourier option').filter(':selected').text();
-		if(coupon_len < 6){
 
-		}else if(coupon_len == 6){
+		var selected_courier  = $('#selectCourier option').filter(':selected').text();
+		if(coupon_len < 8){
+
+		}else if(coupon_len == 8){
 			
 			if(selected_courier.toLowerCase() === 'Select Courier'.toLowerCase()){
 				alert("Select a courier");
@@ -237,7 +237,7 @@ jQuery(document).ready(function() {
 										showInputField();
 										alert("invalid coupon");
 									}
-									
+								
 								},
 								error: function(coupon_value)
 								{
