@@ -373,7 +373,7 @@ class Jit extends CI_Controller {
 			}else if($courier_id == 'SAa28a764'){
 				$courier_name = 'Skynet';
 				$courier_email = 'dare.onigbinde@skynetworldwide.com.ng';
-			}else if($courier_id == ''){
+			}else if($courier_id == 'SA98bbd50'){
 				$courier_name = 'Muve';
 				$courier_name = 'kareem_oritola@yahoo.com';
 			}else{
@@ -581,7 +581,7 @@ class Jit extends CI_Controller {
 								 
 			//$this->email->to($shippingDetail->email);
 			$this->email->to($merchant_email, $merchant_name);
-
+		
 
 			$this->email->subject('Order on Saddle Send Package');
 
@@ -837,7 +837,6 @@ class Jit extends CI_Controller {
 
 			$femail = $this->email->from(AdminEmail, AdminEmailName);
 
-			//$femail = $this->email->from("manieabiodun@gmail.com", "Manie Joh");
 								 
 			//$this->email->to($shippingDetail->email);
 			$temail = $this->email->to($courier_email, $courier_name);
@@ -849,6 +848,7 @@ class Jit extends CI_Controller {
 			$this->email->send($sent);
 
 
+			// Reciever email 
 			$receiver_email_message = '<!DOCTYPE html>
 			<html>
 			<head lang="en">
@@ -943,8 +943,6 @@ class Jit extends CI_Controller {
 			$conemail = $this->email->initialize($config);
 
 			$frmemail = $this->email->from(AdminEmail, AdminEmailName);
-
-			//$femail = $this->email->from("manieabiodun@gmail.com", "Manie Joh");
 								 
 			//$this->email->to($shippingDetail->email);
 			$toemail = $this->email->to($customer_email, $customer_name);
@@ -955,6 +953,263 @@ class Jit extends CI_Controller {
 			$sent  = $this->email->message($customer_message);
 			$this->email->send($sent);
 
+			//Email sent to Netplus
+			$netplus_email_message = '<!DOCTYPE html>
+			<html>
+			<head lang="en">
+			    <meta charset="UTF-8">
+			    <title></title>
+			</head>
+			<body style="background-color: #f3f3f3; padding: 0; margin: 0;font-family: \'Calibri\', Arial, sans-serif;">
+			<div class="outer-div" style="margin: 0 auto; width:600px;background-color: #fff;">
+			    <table width="100%">
+			        <tr>
+			            <td colspan="6">
+			                <div style="background-color: #bcc0c6;
+			                        width:100%; height:100px; border-bottom: solid 3px #000000; padding:20px 0">
+			                    <table>
+			                        <tr>
+			                            <td width="5%"></td>
+
+			                            <td width="30%">
+			                                <img src="'.base_url().'/saddleng/img/logo.png" />
+			                            </td>
+			                            <td width="5%"></td>
+			                        </tr>
+			                    </table>
+			                </div>
+			            </td>
+			        </tr>
+
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			                <p>
+			                    Dear <strong> Sendpackage </strong>,<br /><br />
+			                    An order has been place by a Merchant. Kindly reach out to <strong> '.$courier_name.' </strong>
+			                </p>
+			            </td>
+			        </tr>
+			        <tr>
+			            <td colspan="" style="padding:10px 20px;">
+			                Transaction Refrence: 
+			            </td>
+
+			            <td colspan="" style="padding:10px 20px;"> '.$order_id.'
+			            </td>
+					</tr>
+					
+
+					<tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			               Pickup Information
+			            </td>
+			        </tr>
+
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px;">
+							<table width="100%">
+								<tr>
+									<td width="40%" height="30">Name</td>
+									<td width="60%">
+										<div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+											'.$merchant_name.'
+										</div>
+									</td>
+								
+								</tr>
+			                    <tr>
+			                        <td width="40%" height="30">Address</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                                '.$merchant_address.'
+			                            </div>
+			                        </td>
+			                      
+			                    </tr>
+			                    <tr>
+			                        <td width="40%" height="30">Phone</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                               '.$merchant_contact.'
+			                            </div>
+			                        </td>
+			                        
+			                    </tr>
+		                        <tr>
+			                        <td width="40%" height="30">State</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                                '.$pickup_state.'
+			                            </div>
+			                        </td>
+			                        
+								</tr>
+								<tr>
+			                        <td width="40%" height="30">LGA</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                                '.$pickup_lga.'
+			                            </div>
+			                        </td>
+			                        
+			                    </tr>
+			                </table>
+			            </td>
+			        </tr>
+
+
+
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px;">
+			               Delivery Information
+			            </td>
+			        </tr>
+
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px;">
+							<table width="100%">
+								<tr>
+			                        <td width="40%" height="30">Name</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                                '.$customer_name.'
+			                            </div>
+			                        </td>
+			                      
+			                    </tr>
+			                    <tr>
+			                        <td width="40%" height="30">Address</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                                '.$customer_address.'
+			                            </div>
+			                        </td>
+			                      
+			                    </tr>
+			                    <tr>
+			                        <td width="40%" height="30">Phone</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                               '.$customer_contact.'
+			                            </div>
+			                        </td>
+			                        
+			                    </tr>
+		                        <tr>
+			                        <td width="40%" height="30">State</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                                '.$delivery_state.'
+			                            </div>
+			                        </td>
+			                        
+								</tr>
+								<tr>
+			                        <td width="40%" height="30">LGA</td>
+			                        <td width="60%">
+			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
+			                            padding: 0 10px;">
+			                                '.$delivery_lga.'
+			                            </div>
+			                        </td>
+			                        
+			                    </tr>
+			                </table>
+			            </td>
+			        </tr>
+					<tr>
+
+					</tr>
+						<td colspan="6" style="padding:10px 20px;">
+							<div style="border: solid 1px #ccc; background-color: #f3f3f3; padding: 15px;">
+							<p><strong>Product(s) Information:</strong></p>
+							<table width="100%" border="0" cellpadding="3" cellspacing="0" style="border-collapse: unset; font-size: 12px;">
+								<tr style="color: #fff;background-color: #ccc;">
+									<td style="padding-left: 15px">ITEM</td>
+									<td><strong>ITEM PRICE</strong></td>
+									<td><strong>QUANTITY</strong></td>
+									<td><strong>WEIGHT</strong></td>
+									<td>&nbsp;</td>
+								</tr>';
+
+								
+								for($i=0; $i<$item_count; $i++)
+								{	
+								$courier_email_message .='<tr>
+									<td>'.$items[$i]['item_name'].'</td>
+									<td>&#x20A6;'.$items[$i]['item_cost'].'</td>
+									<td>'.$items[$i]['item_quantity'].'</td>
+									<td>'.$items[$i]['item_weight'].'</td>
+								</tr>';
+								
+								}
+								$courier_email_message .= '<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td colspan="2"><strong>Delivery Amount:</strong></td>
+									<td>&#x20A6; '.$delivery_cost.'</td>
+							 	 </tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td colspan="2"><strong>Grand Total: </strong></td>
+									<td>&#x20A6; '.$delivery_cost.'</td>
+							  </tr>
+							</table>
+						</td>
+						<tr>
+							<td colspan="6" style="padding:10px 20px;">
+								<p style="text-align: center">
+								You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
+								</p>
+							</td>
+						</tr>
+			        <tr>
+			            <td colspan="6" style="padding:10px 20px; border-top: solid 1px #ccc;">
+			                <table width="100%">
+			                    <tr>
+			                        <td width="60%">
+			                            <p style="font-size:13px; color: #333;line-height: 30px">
+			                                &copy; 2018, All rights reserved. Saddle
+			                            </p>
+			                        </td>
+
+			                        <td width="40%">
+			                            <a target="_blank" href="https://twitter.com/saddle"><img src="'.base_url().'assets/img/twitter.jpg" style="float:right; margin-left: 5px;" /></a>
+			                            <a target="_blank" href="https://www.facebook.com/saddle"><img src="'.base_url().'assets/img/facebook.jpg" style="float:right; margin-left: 5px;" /></a>
+			                        </td>
+			                    </tr>
+			                </table>
+			            </td>
+			        </tr>
+			    </table>
+			</div>
+			</body>
+			</html>
+		   ';
+
+		    $netplus_message = ($netplus_email_message);
+
+
+			$conf['mailtype'] = "html";
+
+			$cemail = $this->email->initialize($config);
+
+			$femail = $this->email->from(AdminEmail, AdminEmailName);
+
+			$temail = $this->email->to('saddle@netplusadvisory.com', 'Sendpackage');
+
+
+			$semail = $this->email->subject('Order on Saddle Send Package');
+
+			$sent  = $this->email->message($netplus_message);
+			$this->email->send($sent);
+			
 			$this->load->view('layouts/header');
 			$this->load->view('success');
 			$this->load->view('layouts/footer');
