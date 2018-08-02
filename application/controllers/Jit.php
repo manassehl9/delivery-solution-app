@@ -207,7 +207,7 @@ class Jit extends CI_Controller {
 		$token = curl_exec($ch);
 		$value = json_decode($token);
 		return $value->token;
-	}
+		}
 
 	public function update_transactions()
 	{
@@ -372,7 +372,10 @@ class Jit extends CI_Controller {
 				$courier_email = 'nginquiry@dhl.com';
 			}else if($courier_id == 'SAa28a764'){
 				$courier_name = 'Skynet';
-				$courier_email = 'dare.onigbinde@skynet.com';
+				$courier_email = 'dare.onigbinde@skynetworldwide.com.ng';
+			}else if($courier_id == ''){
+				$courier_name = 'Muve';
+				$courier_name = 'kareem_oritola@yahoo.com';
 			}else{
 				$courier_name = 'Courier';
 				$courier_email = '';
