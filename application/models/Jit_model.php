@@ -56,6 +56,21 @@ class Jit_model extends CI_Model{
         }
     }
 
+    public function get_courier_details($id)
+    {
+        $this->db->select('courier_name, email')->from('couriers')
+                ->where('courier_id', $id);
+        $courier = $this->db->get();
+        if($courier->num_rows() > 0) 
+        {
+            return $courier->row();
+        }else{
+            echo "here men";
+            return false;
+        }
+        die;
+    }
+
     public function get_courier_id($where)
     {
         $this->db->select('courier_id')->from('couriers');

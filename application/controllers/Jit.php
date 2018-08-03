@@ -358,28 +358,9 @@ class Jit extends CI_Controller {
 		curl_close($ch); 
 		if($httpcode == 200)
 		{
-			if($courier_id == 'SAfceb761'){
-				$courier_name = 'FEDEX';
-				$courier_email = 'tibadu@redstarplc.com';
-			}else if($courier_id == 'SA493a731'){
-				$courier_name = "Courier Plus";
-				$courier_email = 'o.osideko@courierplus-ng.com';
-			}else if ($courier_id == 'SAf9fac5e'){
-				$courier_name = 'UPS';
-				$courier_email = 'onweke@ups.com';
-			}else if($courier_id == 'SA505f6e8') {
-				$courier_name = 'DHL';
-				$courier_email = 'nginquiry@dhl.com';
-			}else if($courier_id == 'SAa28a764'){
-				$courier_name = 'Skynet';
-				$courier_email = 'dare.onigbinde@skynetworldwide.com.ng';
-			}else if($courier_id == 'SA98bbd50'){
-				$courier_name = 'Muve';
-				$courier_name = 'kareem_oritola@yahoo.com';
-			}else{
-				$courier_name = 'Courier';
-				$courier_email = '';
-			};
+			$courier =  $this->jit_model->get_courier_details($courier_id);
+			$courier_name =  $courier->courier_name;
+			$courier_email = $courier->email;
 
 			$merchant_email_message = '<!DOCTYPE html>
 			<html>
@@ -585,8 +566,8 @@ class Jit extends CI_Controller {
 
 			$this->email->subject('Order on Saddle Send Package');
 
-			$sent  = $this->email->message($message);
-			$this->email->send($sent);
+			$send_merchant_email  = $this->email->message($message);
+			$this->email->send($send_merchant_email);
 
 
 			$courier_email_message = '<!DOCTYPE html>
@@ -844,8 +825,8 @@ class Jit extends CI_Controller {
 
 			$semail = $this->email->subject('Order on Saddle Send Package');
 
-			$sent  = $this->email->message($courier_message);
-			$this->email->send($sent);
+			$send_courier_email  = $this->email->message($courier_message);
+			$this->email->send($send_courier_email);
 
 
 			// Reciever email 
@@ -950,8 +931,8 @@ class Jit extends CI_Controller {
 
 			$subemail = $this->email->subject('Order on Saddle Send Package');
 
-			$sent  = $this->email->message($customer_message);
-			$this->email->send($sent);
+			$send_customer_email  = $this->email->message($customer_message);
+			$this->email->send($send_customer_email);
 
 			//Email sent to Netplus
 			$netplus_email_message = '<!DOCTYPE html>
@@ -1207,8 +1188,8 @@ class Jit extends CI_Controller {
 
 			$semail = $this->email->subject('Order on Saddle Send Package');
 
-			$sent  = $this->email->message($netplus_message);
-			$this->email->send($sent);
+			$send_netplus_email  = $this->email->message($netplus_message);
+			$this->email->send($send_netplus_email);
 			
 			$this->load->view('layouts/header');
 			$this->load->view('success');
