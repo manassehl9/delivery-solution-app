@@ -199,9 +199,9 @@ jQuery(document).ready(function() {
 		console.log(coupon_len);
 
 		var selected_courier  = $('#selectCourier option').filter(':selected').text();
-		if(coupon_len < 8){
+		if(coupon_len < 10){
 
-		}else if(coupon_len == 8){
+		}else if(coupon_len == 10){
 			
 			if(selected_courier.toLowerCase() === 'Select Courier'.toLowerCase()){
 				alert("Select a courier");
