@@ -11,16 +11,13 @@ class Jit extends CI_Controller {
         $this->load->model('jit_model');
     }
 	public function index()
-	{
-        $transaction_id = 'SPCK'.date("Y").mt_rand(1000000, 9999999);  
-		$_SESSION['order_id'] = $transaction_id;
-		$data['order_id'] = $_SESSION['order_id'];
+	{        
+		$data['order_id'] = $this->get_order_id();
         $data['states'] = $this->jit_model->get_state();
         $data['couriers'] = $this->jit_model->get_courier();
 
 		if(isset($_REQUEST['create'])){
 			$post = array();
-			var_dump($post);
 			die;
 		}else{
 			$this->load->view('layouts/header');
@@ -28,8 +25,15 @@ class Jit extends CI_Controller {
 			$this->load->view('layouts/footer');
 		}
 		
-    }
+	}
 
+	public function get_order_id()
+	{
+		$order_id = 'SPCK'.date("Y").mt_rand(1000000, 9999999);  
+		$_SESSION['order_id'] = $order_id;
+		return $_SESSION['order_id'];
+	}
+	
     public function get_order_details()
     {
         $data['item_name'] = $this->input->post('item_name');
@@ -211,9 +215,10 @@ class Jit extends CI_Controller {
 
 	public function update_transactions()
 	{
-		$order_id = $this->input->post('order_id');
-		$transaction_id =  $this->jit_model->update_transaction($order_id);
+		$order_id =  $_SESSION['order_id'];
+		$this->jit_model->update_transaction($order_id);
 	}
+
 
 	public function download() {
 		// database record to be exported
@@ -263,9 +268,8 @@ class Jit extends CI_Controller {
 
 	public function courier()
 	{
-		$order_id = $_SESSION['order_id'];
+		$data['transaction_id'] = $_SESSION['order_id'];
 		$pickup_type = 'mercht-loc';
-		$data['transaction_id'] = $order_id;
 		$courier_id = $_SESSION['select_courier'];
 
 		$item_name = $_SESSION['transaction']['item_name'];
@@ -340,8 +344,6 @@ class Jit extends CI_Controller {
 		$token = $this->get_token();
 
 		$header = array('Content-Type: application/json', 'Authorization: Bearer '.$token);
-		
-
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");  
@@ -349,20 +351,106 @@ class Jit extends CI_Controller {
 		curl_setopt($ch, CURLOPT_POSTFIELDS,$post);
 		curl_setopt($ch,CURLOPT_HTTPHEADER, $header); 
 		$result = curl_exec($ch);
-		
-
+	
 		
 		$res = json_decode($result);
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
 		curl_close($ch); 
 		if($httpcode == 200)
 		{
+			//Successful Transaction
+			$this->update_transactions();
+
+			// Get selected courier details from the Database
 			$courier =  $this->jit_model->get_courier_details($courier_id);
 			$courier_name =  $courier->courier_name;
 			$courier_email = $courier->email;
 
-			$merchant_email_message = '<!DOCTYPE html>
+			$merchant_email_message =  $this->merchant_email($data);
+
+		    $message = ($merchant_email_message);
+		    $this->load->library('email');
+		    $config['protocol']    = 'smtp';
+			$config['smtp_host']    = 'ssl://smtp.gmail.com';
+			$config['smtp_port']    = '465';
+			$config['smtp_timeout'] = '7';
+			$config['smtp_user']    = ADMIN_EMAIL;
+			$config['smtp_pass']    = ADMIN_PASSWORD;
+			$config['charset']    = 'utf-8';
+			$config['newline']    = "\r\n";
+			$config['mailtype'] = 'text'; // or html
+			$config['validation'] = TRUE; // bool whether to validate email or not    
+
+			$config['mailtype'] = "html";
+
+			$this->email->initialize($config);
+			$this->email->from(ADMIN_EMAIL, ADMIN_EMAIL_NAME);
+			$this->email->to($merchant_email, $merchant_name);
+			$this->email->subject('Order on Saddle Send Package');
+
+			$send_merchant_email  = $this->email->message($message);
+			$this->email->send($send_merchant_email);
+
+			//Send email to courier
+			$courier_email_message = $this->courier_email($data, $courier_name);
+		    $courier_message = ($courier_email_message);
+
+
+			$conf['mailtype'] = "html";
+			$cemail = $this->email->initialize($config);
+			$femail = $this->email->from(ADMIN_EMAIL, ADMIN_EMAIL_NAME);
+
+								 
+			$temail = $this->email->to($courier_email, $courier_name);
+			$semail = $this->email->subject('Order on Saddle Send Package');
+			$send_courier_email  = $this->email->message($courier_message);
+			$this->email->send($send_courier_email);
+
+
+			// Reciever email 
+			$receiver_email_message = $this->reciever_email($data);
+		    $customer_message = ($receiver_email_message);
+
+
+			$conf['mailtype'] = "html";
+
+			$conemail = $this->email->initialize($config);
+
+			$frmemail = $this->email->from(ADMIN_EMAIL, ADMIN_EMAIL_NAME);
+			$toemail = $this->email->to($customer_email, $customer_name);
+			$subemail = $this->email->subject('Order on Saddle Send Package');
+
+			$send_customer_email  = $this->email->message($customer_message);
+			$this->email->send($send_customer_email);
+
+			//Email sent to Netplus
+			$netplus_email_message = $this->netplus_email($data);
+
+		    $netplus_message = ($netplus_email_message);
+
+
+			$conf['mailtype'] = "html";
+
+			$cemail = $this->email->initialize($config);
+			$femail = $this->email->from(ADMIN_EMAIL, ADMIN_EMAIL_NAME);
+			$temail = $this->email->to(ADMIN_EMAIL, 'Sendpackage');
+			$semail = $this->email->subject('Order on Saddle Send Package');
+
+			$send_netplus_email  = $this->email->message($netplus_message);
+			$this->email->send($send_netplus_email);
+			
+			$this->load->view('layouts/header');
+			$this->load->view('success');
+			$this->load->view('layouts/footer');
+			$this->session->sess_destroy();
+			
+		}
+		
+	}
+
+	public function merchant_email($data)
+	{
+		return '<!DOCTYPE html>
 			<html>
 			<head lang="en">
 			    <meta charset="UTF-8">
@@ -394,9 +482,9 @@ class Jit extends CI_Controller {
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
 			                <p>
-			                    Dear <strong> '.$merchant_name.' </strong>,<br /><br />
+			                    Dear <strong> '.$data['pickup']['merchant_contactname'].' </strong>,<br /><br />
 			                    Your SendPackage request has been received and is being processed
-								Our rep, will contact you to pick up your item(s) within 24 hours. You can track your package with ID: '.$order_id.' on Saddle  http://new.saddleng.com .
+								Our rep, will contact you to pick up your item(s) within 24 hours. You can track your package with ID: '.$data['transaction_id'].' on Saddle  http://new.saddleng.com .
 			                </p>
 			            </td>
 					</tr>
@@ -421,7 +509,7 @@ class Jit extends CI_Controller {
 									<td width="40%" height="30">Name</td>
 									<td width="60%">
 										<div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-											'.$customer_name.'
+											'.$data['delivery']['customer_name'].'
 										</div>
 									</td>
 								
@@ -430,7 +518,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$customer_address.'
+			                                '.$data['delivery']['customer_address'].'
 			                            </div>
 			                        </td>
 			                      
@@ -440,7 +528,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                               '.$customer_contact.'
+			                               '.$data['delivery']['customer_phone'].'
 			                            </div>
 			                        </td>
 			                        
@@ -450,7 +538,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_state.'
+			                                '.$data['delivery']['customer_lga'].'
 			                            </div>
 			                        </td>
 			                        
@@ -460,7 +548,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_lga.'
+			                                '.$data['delivery']['customer_state'].'
 			                            </div>
 			                        </td>
 			                        
@@ -471,43 +559,7 @@ class Jit extends CI_Controller {
 					<tr>
 
 					</tr>
-						<td colspan="6" style="padding:10px 20px;">
-							<div style="border: solid 1px #ccc; background-color: #f3f3f3; padding: 15px;">
-							<p><strong>Product(s) Information:</strong></p>
-							<table width="100%" border="0" cellpadding="3" cellspacing="0" style="border-collapse: unset; font-size: 12px;">
-								<tr style="color: #fff;background-color: #ccc;">
-									<td style="padding-left: 15px">ITEM</td>
-									<td><strong>ITEM PRICE</strong></td>
-									<td><strong>QUANTITY</strong></td>
-									<td><strong>WEIGHT</strong></td>
-									<td>&nbsp;</td>
-								</tr>';
-
-								
-								for($i=0; $i<$item_count; $i++)
-								{	
-								$merchant_email_message .='<tr>
-									<td>'.$items[$i]['item_name'].'</td>
-									<td>&#x20A6;'.$items[$i]['item_cost'].'</td>
-									<td>'.$items[$i]['item_quantity'].'</td>
-									<td>'.$items[$i]['item_weight'].'</td>
-								</tr>';
-								
-								}
-								$merchant_email_message .= '<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan="2"><strong>Delivery Amount:</strong></td>
-									<td>&#x20A6; '.$delivery_cost.'</td>
-							 	 </tr>
-								<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan="2"><strong>Grand Total: </strong></td>
-									<td>&#x20A6; '.$delivery_cost.'</td>
-							  </tr>
-							</table>
-						</td>
+						
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
@@ -538,39 +590,11 @@ class Jit extends CI_Controller {
 			</body>
 			</html>
 		   ';
+	}
 
-		   $message = ($merchant_email_message);
-		   $this->load->library('email');
-		    $config['protocol']    = 'smtp';
-			$config['smtp_host']    = 'ssl://smtp.gmail.com';
-			$config['smtp_port']    = '465';
-			$config['smtp_timeout'] = '7';
-			$config['smtp_user']    = AdminEmail;
-			$config['smtp_pass']    = 'Saddle7890';
-			$config['charset']    = 'utf-8';
-			$config['newline']    = "\r\n";
-			$config['mailtype'] = 'text'; // or html
-			$config['validation'] = TRUE; // bool whether to validate email or not    
-
-			$config['mailtype'] = "html";
-
-			$this->email->initialize($config);
-
-			// $this->email->from(AdminEmail, AdminEmailName);
-
-			$this->email->from(AdminEmail, AdminEmailName);
-								 
-			//$this->email->to($shippingDetail->email);
-			$this->email->to($merchant_email, $merchant_name);
-		
-
-			$this->email->subject('Order on Saddle Send Package');
-
-			$send_merchant_email  = $this->email->message($message);
-			$this->email->send($send_merchant_email);
-
-
-			$courier_email_message = '<!DOCTYPE html>
+	public function courier_email($data, $courier_name) 
+	{
+		return '<!DOCTYPE html>
 			<html>
 			<head lang="en">
 			    <meta charset="UTF-8">
@@ -610,7 +634,7 @@ class Jit extends CI_Controller {
 			                Transaction Refrence: 
 			            </td>
 
-			            <td colspan="" style="padding:10px 20px;"> '.$order_id.'
+			            <td colspan="" style="padding:10px 20px;"> '.$data['transaction_id'].'
 			            </td>
 					</tr>
 					
@@ -628,7 +652,7 @@ class Jit extends CI_Controller {
 									<td width="40%" height="30">Name</td>
 									<td width="60%">
 										<div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-											'.$merchant_name.'
+											'.$data['pickup']['merchant_contactname'].'
 										</div>
 									</td>
 								
@@ -637,7 +661,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$merchant_address.'
+			                                '.$data['pickup']['merchant_address'].'
 			                            </div>
 			                        </td>
 			                      
@@ -647,7 +671,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                               '.$merchant_contact.'
+			                               '.$data['pickup']['merchant_phone'].'
 			                            </div>
 			                        </td>
 			                        
@@ -657,7 +681,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_state.'
+			                                '.$data['pickup']['merchant_state'].'
 			                            </div>
 			                        </td>
 			                        
@@ -667,7 +691,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_lga.'
+			                                '.$data['pickup']['merchant_lga'].'
 			                            </div>
 			                        </td>
 			                        
@@ -691,7 +715,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Name</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$customer_name.'
+			                                '.$data['delivery']['customer_name'].'
 			                            </div>
 			                        </td>
 			                      
@@ -700,7 +724,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$customer_address.'
+			                                '.$data['delivery']['customer_address'].'
 			                            </div>
 			                        </td>
 			                      
@@ -710,7 +734,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                               '.$customer_contact.'
+			                               '.$data['delivery']['customer_phone'].'
 			                            </div>
 			                        </td>
 			                        
@@ -720,7 +744,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_state.'
+			                                '.$data['delivery']['customer_state'].'
 			                            </div>
 			                        </td>
 			                        
@@ -730,7 +754,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_lga.'
+			                                '.$data['delivery']['customer_lga'].'
 			                            </div>
 			                        </td>
 			                        
@@ -741,43 +765,7 @@ class Jit extends CI_Controller {
 					<tr>
 
 					</tr>
-						<td colspan="6" style="padding:10px 20px;">
-							<div style="border: solid 1px #ccc; background-color: #f3f3f3; padding: 15px;">
-							<p><strong>Product(s) Information:</strong></p>
-							<table width="100%" border="0" cellpadding="3" cellspacing="0" style="border-collapse: unset; font-size: 12px;">
-								<tr style="color: #fff;background-color: #ccc;">
-									<td style="padding-left: 15px">ITEM</td>
-									<td><strong>ITEM PRICE</strong></td>
-									<td><strong>QUANTITY</strong></td>
-									<td><strong>WEIGHT</strong></td>
-									<td>&nbsp;</td>
-								</tr>';
-
-								
-								for($i=0; $i<$item_count; $i++)
-								{	
-								$courier_email_message .='<tr>
-									<td>'.$items[$i]['item_name'].'</td>
-									<td>&#x20A6;'.$items[$i]['item_cost'].'</td>
-									<td>'.$items[$i]['item_quantity'].'</td>
-									<td>'.$items[$i]['item_weight'].'</td>
-								</tr>';
-								
-								}
-								$courier_email_message .= '<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan="2"><strong>Delivery Amount:</strong></td>
-									<td>&#x20A6; '.$delivery_cost.'</td>
-							 	 </tr>
-								<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan="2"><strong>Grand Total: </strong></td>
-									<td>&#x20A6; '.$delivery_cost.'</td>
-							  </tr>
-							</table>
-						</td>
+						
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
@@ -808,29 +796,11 @@ class Jit extends CI_Controller {
 			</body>
 			</html>
 		   ';
+	}
 
-		    $courier_message = ($courier_email_message);
-
-
-			$conf['mailtype'] = "html";
-
-			$cemail = $this->email->initialize($config);
-
-			$femail = $this->email->from(AdminEmail, AdminEmailName);
-
-								 
-			//$this->email->to($shippingDetail->email);
-			$temail = $this->email->to($courier_email, $courier_name);
-
-
-			$semail = $this->email->subject('Order on Saddle Send Package');
-
-			$send_courier_email  = $this->email->message($courier_message);
-			$this->email->send($send_courier_email);
-
-
-			// Reciever email 
-			$receiver_email_message = '<!DOCTYPE html>
+	public function reciever_email($data)
+	{
+		return '<!DOCTYPE html>
 			<html>
 			<head lang="en">
 			    <meta charset="UTF-8">
@@ -860,7 +830,7 @@ class Jit extends CI_Controller {
 			        <tr>
 			            <td colspan="6" style="padding:10px 20px;">
 			                <p>
-			                    Dear <strong> '.$customer_name.' </strong>,<br /><br />
+			                    Dear <strong> '.$data['delivery']['customer_name'].' </strong>,<br /><br />
 								Please be informed that a package is on its way to you. 
 								
 			                </p>
@@ -871,7 +841,7 @@ class Jit extends CI_Controller {
 			                Order No: 
 			            </td>
 
-			            <td colspan="" style="padding:10px 20px;"> '.$order_id.'
+			            <td colspan="" style="padding:10px 20px;"> '.$data['transaction_id'].'
 			            </td>
 					</tr>
 					<tr>
@@ -915,27 +885,11 @@ class Jit extends CI_Controller {
 			</body>
 			</html>
 		   ';
+	}
 
-		    $customer_message = ($receiver_email_message);
-
-
-			$conf['mailtype'] = "html";
-
-			$conemail = $this->email->initialize($config);
-
-			$frmemail = $this->email->from(AdminEmail, AdminEmailName);
-								 
-			//$this->email->to($shippingDetail->email);
-			$toemail = $this->email->to($customer_email, $customer_name);
-
-
-			$subemail = $this->email->subject('Order on Saddle Send Package');
-
-			$send_customer_email  = $this->email->message($customer_message);
-			$this->email->send($send_customer_email);
-
-			//Email sent to Netplus
-			$netplus_email_message = '<!DOCTYPE html>
+	public function netplus_email($data)
+	{
+		return '<!DOCTYPE html>
 			<html>
 			<head lang="en">
 			    <meta charset="UTF-8">
@@ -975,7 +929,7 @@ class Jit extends CI_Controller {
 			                Transaction Refrence: 
 			            </td>
 
-			            <td colspan="" style="padding:10px 20px;"> '.$order_id.'
+			            <td colspan="" style="padding:10px 20px;"> '.$data['transaction_id'].'
 			            </td>
 					</tr>
 					
@@ -993,7 +947,7 @@ class Jit extends CI_Controller {
 									<td width="40%" height="30">Name</td>
 									<td width="60%">
 										<div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-											'.$merchant_name.'
+											'.$data['pickup']['merchant_contactname'].'
 										</div>
 									</td>
 								
@@ -1002,7 +956,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$merchant_address.'
+			                                '.$data['pickup']['merchant_address'].'
 			                            </div>
 			                        </td>
 			                      
@@ -1012,7 +966,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                               '.$merchant_contact.'
+			                               '.$data['pickup']['merchant_phone'].'
 			                            </div>
 			                        </td>
 			                        
@@ -1022,7 +976,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_state.'
+			                                '.$data['pickup']['merchant_state'].'
 			                            </div>
 			                        </td>
 			                        
@@ -1032,7 +986,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$pickup_lga.'
+			                                '.$data['pickup']['merchant_lga'].'
 			                            </div>
 			                        </td>
 			                        
@@ -1056,7 +1010,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Name</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$customer_name.'
+			                                '.$data['delivery']['customer_name'].'
 			                            </div>
 			                        </td>
 			                      
@@ -1065,7 +1019,7 @@ class Jit extends CI_Controller {
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
-			                                '.$customer_address.'
+			                                '.$data['delivery']['customer_address'].'
 			                            </div>
 			                        </td>
 			                      
@@ -1075,7 +1029,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                               '.$customer_contact.'
+			                               '.$data['delivery']['customer_phone'].'
 			                            </div>
 			                        </td>
 			                        
@@ -1085,7 +1039,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_state.'
+			                                '.$data['delivery']['customer_state'].'
 			                            </div>
 			                        </td>
 			                        
@@ -1095,7 +1049,7 @@ class Jit extends CI_Controller {
 			                        <td width="60%">
 			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px;
 			                            padding: 0 10px;">
-			                                '.$delivery_lga.'
+			                                '.$data['delivery']['customer_lga'].'
 			                            </div>
 			                        </td>
 			                        
@@ -1106,43 +1060,7 @@ class Jit extends CI_Controller {
 					<tr>
 
 					</tr>
-						<td colspan="6" style="padding:10px 20px;">
-							<div style="border: solid 1px #ccc; background-color: #f3f3f3; padding: 15px;">
-							<p><strong>Product(s) Information:</strong></p>
-							<table width="100%" border="0" cellpadding="3" cellspacing="0" style="border-collapse: unset; font-size: 12px;">
-								<tr style="color: #fff;background-color: #ccc;">
-									<td style="padding-left: 15px">ITEM</td>
-									<td><strong>ITEM PRICE</strong></td>
-									<td><strong>QUANTITY</strong></td>
-									<td><strong>WEIGHT</strong></td>
-									<td>&nbsp;</td>
-								</tr>';
-
-								
-								for($i=0; $i<$item_count; $i++)
-								{	
-								$courier_email_message .='<tr>
-									<td>'.$items[$i]['item_name'].'</td>
-									<td>&#x20A6;'.$items[$i]['item_cost'].'</td>
-									<td>'.$items[$i]['item_quantity'].'</td>
-									<td>'.$items[$i]['item_weight'].'</td>
-								</tr>';
-								
-								}
-								$courier_email_message .= '<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan="2"><strong>Delivery Amount:</strong></td>
-									<td>&#x20A6; '.$delivery_cost.'</td>
-							 	 </tr>
-								<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan="2"><strong>Grand Total: </strong></td>
-									<td>&#x20A6; '.$delivery_cost.'</td>
-							  </tr>
-							</table>
-						</td>
+						
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
@@ -1173,31 +1091,6 @@ class Jit extends CI_Controller {
 			</body>
 			</html>
 		   ';
-
-		    $netplus_message = ($netplus_email_message);
-
-
-			$conf['mailtype'] = "html";
-
-			$cemail = $this->email->initialize($config);
-
-			$femail = $this->email->from(AdminEmail, AdminEmailName);
-
-			$temail = $this->email->to('saddle@netplusadvisory.com', 'Sendpackage');
-
-
-			$semail = $this->email->subject('Order on Saddle Send Package');
-
-			$send_netplus_email  = $this->email->message($netplus_message);
-			$this->email->send($send_netplus_email);
-			
-			$this->load->view('layouts/header');
-			$this->load->view('success');
-			$this->load->view('layouts/footer');
-			
-		}
-		
 	}
-
   
 }

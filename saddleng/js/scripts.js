@@ -3,43 +3,34 @@ jQuery(document).ready(function() {
 	$('#loader').hide();
 
 	$("#netplus-pay").click(function (e) {
-
-		var total_amount = $('#total_amount').val();
 		var order_id = $('#order_id').val();
+		var total_amount = $('#total_amount').val();
 		//var merchant_id = "TEST5b0c3742ac4ce";
 		var merchant_id = "MID5b0c3ac715d976.33987466";
 		var merchant_name = $('#merchant_name').val();
 		var merchant_email = $('#merchant_email').val();
 
-        e.preventDefault();
-        netpluspayPOP.setup(
-            {
-                merchant: merchant_id,
-                customer_name: merchant_name,
-                email: merchant_email,
-                amount: total_amount,
-                currency_code:"NGN",
-                narration: "Order from Send Package",
-                order_id: order_id,
-                container: "paymentFrame",
-                onClose  : function() {
+		e.preventDefault();
+		netpluspayPOP.setup(
+			{
+				merchant: merchant_id,
+				customer_name: merchant_name,
+				email: merchant_email,
+				amount: total_amount,
+				currency_code:"NGN",
+				narration: "Order from Send Package",
+				order_id: order_id,
+				container: "paymentFrame",
+				onClose  : function() {
 					this.closeIframe();
 					window.location = window.location.origin;
 				},
-                callBack: function (resp) {
+				callBack: function (resp) {
 					var func = function() {
 						$.ajax({
 							type: "GET",
 							url: "/jit/courier/",
 							success: function(data){
-								$.ajax({
-									type: "POST",
-									url: "/jit/update_transactions",
-									data: {"order_id": order_id},
-									success: function(data){
-										
-									}
-								});
 								//window.location = window.location.origin;
 							}
 						});
@@ -48,12 +39,12 @@ jQuery(document).ready(function() {
 					if (resp.code == '00') {
 						func();
 					}
-                }
+				}
 				
 			}
 			
-        );
-        netpluspayPOP.prepareFrame();
+		);
+		netpluspayPOP.prepareFrame();
     });
 
 	$('#merchantDeliverystate').change(function(){
