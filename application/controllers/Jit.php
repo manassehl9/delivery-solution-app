@@ -268,7 +268,7 @@ class Jit extends CI_Controller {
 
 	public function courier()
 	{
-		log_message("debug","entering courier endpoint");
+		log_message("debug","courier endpoint: entry");
 		$data['transaction_id'] = $_SESSION['order_id'];
 		$pickup_type = 'mercht-loc';
 		$courier_id = $_SESSION['select_courier'];
@@ -341,14 +341,14 @@ class Jit extends CI_Controller {
 
 		$post = json_encode(['transaction' => $data]);
 
-		log_message("debug","courier endpoint -> getting saddle token");
+		log_message("debug","courier endpoint: getting saddle token");
 
 		$url = "http://new.saddleng.com/api/v2/delivery";
 		$token = $this->get_token();
 
 		$header = array('Content-Type: application/json', 'Authorization: Bearer '.$token);
 
-		log_message("debug","courier endpoint -> posting data to saddleng");
+		log_message("debug","courier endpoint: posting data to saddleng");
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");  
@@ -364,8 +364,8 @@ class Jit extends CI_Controller {
 		if($httpcode == 200)
 		{
 			//Successful Transaction
-			log_message("debug","courier endpoint -> post resturned successfully");
-			log_message("debug","courier endpoint -> updating transactions table");
+			log_message("debug","courier endpoint: post resturned successfully");
+			log_message("debug","courier endpoint: updating transactions table");
 
 			$this->update_transactions();
 
@@ -374,7 +374,7 @@ class Jit extends CI_Controller {
 			$courier_name =  $courier->courier_name;
 			$courier_email = $courier->email;
 
-			log_message("debug","courier endpoint -> post resturned successfully");
+			log_message("debug","courier endpoint: post resturned successfully");
 
 			$merchant_email_message =  $this->merchant_email($data);
 
@@ -400,7 +400,7 @@ class Jit extends CI_Controller {
 
 			$send_merchant_email  = $this->email->message($message);
 
-			log_message("debug","courier endpoint -> sending merchant email");
+			log_message("debug","courier endpoint: sending merchant email");
 			$this->email->send($send_merchant_email);
 
 			//Send email to courier
@@ -417,7 +417,7 @@ class Jit extends CI_Controller {
 			$semail = $this->email->subject('Order on Saddle Send Package');
 			$send_courier_email  = $this->email->message($courier_message);
 
-			log_message("debug","courier endpoint -> sending courier email");
+			log_message("debug","courier endpoint: sending courier email");
 			$this->email->send($send_courier_email);
 
 
@@ -436,7 +436,7 @@ class Jit extends CI_Controller {
 
 			$send_customer_email  = $this->email->message($customer_message);
 
-			log_message("debug","courier endpoint -> sending customer email");
+			log_message("debug","courier endpoint: sending customer email");
 			$this->email->send($send_customer_email);
 
 			//Email sent to Netplus
@@ -454,7 +454,7 @@ class Jit extends CI_Controller {
 
 			$send_netplus_email  = $this->email->message($netplus_message);
 
-			log_message("debug","courier endpoint -> sending netplus email");
+			log_message("debug","courier endpoint: sending netplus email");
 
 			$this->email->send($send_netplus_email);
 			
@@ -462,8 +462,7 @@ class Jit extends CI_Controller {
 			$this->load->view('success');
 			$this->load->view('layouts/footer');
 			$this->session->sess_destroy();
-			log_message("debug","exiting courier endpoint");
-
+			log_message("debug","courier endpoint: exit");
 			
 		}
 		
