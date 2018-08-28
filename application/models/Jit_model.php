@@ -65,10 +65,8 @@ class Jit_model extends CI_Model{
         {
             return $courier->row();
         }else{
-            echo "here men";
             return false;
         }
-        die;
     }
 
     public function get_courier_id($where)
