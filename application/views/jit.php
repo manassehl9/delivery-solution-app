@@ -1,250 +1,341 @@
-
-
-
-    <!-- Top content -->
-    <section id="package">
-        <div class="top-content">
-        <div id="paymentFrame"></div> 
-            <div class="inner-bg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-2 text" align="center">
-                            <h1><strong>Send a Package</strong> Start by filling the required details below</h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-2 form-box">
-                          
-                          <form role="form" action="<?php echo base_url(); ?>jit/netpluspay" method="post" class="registration-form">
-                        
-                            <fieldset>
-                              <div class="form-top">
-                                <div class="form-top-left">
-                                  <h3>Step 1 /3</h3>
-                                    <p>Package details:</p>
-                                </div>
-                                <div class="form-top-right">
-                                  
-                                </div>
-                                </div>
-                                <div class="form-bottom">
-                                <div id="dynamic_field"  id="row">
-                                  <div class="form-group col-md-6 col-xs-6">
-                                    <br>
-                                    <label class="control-label">Item Name:</label>
-                                    <input type="text" name="item_name[]" placeholder="Item Name" class="item_namae form-control" id="item_name">
-                                  </div>
-                                  <div class="form-group col-md-6 col-xs-6">
-                                    <br>
-                                    <label class="control-label">Item Quantity:</label>
-                                    <input type="number" name="item_quantity[]" placeholder="Item Quantity" class="item_quantity form-control" id="item_quantity">
-                                  </div>
-                                  <div class="form-group col-md-6 col-xs-6">
-                                    <label class="control-label">Item Weight(KG):</label>
-                                    <input type="number" name="item_weight[]" placeholder="Item Weight" class="item_weight form-control" id="item_weight">
-                                  </div>
-                                  <div class="form-group col-md-6 col-xs-6">
-                                    <label class="control-label">Cost of Item:</label>
-                                    <input type="number" name="item_price[]" placeholder="Item Price" class="item_price form-control" id="item_price">
-                                  </div>
-                              
-                                <!-- <button type="button" class="btn btn-add" >Add Another Item</button> -->
-                                <a class="btn btn-add" id="add-item" title="Add new item" href="javascript:insertItem('dynamic_field')" style="color: #F69147;">Add Item</a> 
-                                </div>
-                                <div class='form-footer'>
-                                  <a class="btn btn-next" style="float:right; margin-top: -40px; color: #F69147;">Next<span><i class="material-icons" style='font-size: 17px;margin-top: -2px;'>arrow_forward_ios</i></span></a>
-                               </div>                      
-                              </div>
-                            </fieldset>
-                          
-                          <fieldset>
-                              <div class="form-top">
-                                <div class="form-top-left">
-                                  <h3>Step 2 / 3</h3>
-                                    <p>Sender/Reciever Details:</p>
-                                </div>
-                                <div class="form-top-right">
-                                </div>
-                                </div>
-                                <div class="form-bottom">
-                                
-                                <div class="form-group  col-md-6">
-                                <h2 style="width:auto">Sender Details:</h2><br>
-                                  <div class="form-group  col-md-12">
-                                    <label class="control-label">Sender Name:</label>
-                                    <input type="text" name="merchant_name" placeholder="Name" class="merchant_name form-control" id="merchant_name">
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Sender Phone:</label>
-                                    <input type="text" name="merchant_contact" placeholder="Contact" class="merchant_contact form-control" id="merchant_contact">
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Sender Email:</label>
-                                    <input type="email" name="merchant_email" placeholder="Email" class="merchant_email email form-control" id="merchant_email">
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Sender Address:</label>
-                                    <input type="text" name="merchant_address" placeholder="Address" class="merchant_address form-control" id="merchant_address">
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                  <label class="control-label">Sender State:</label>
-                                  <select class="form-control select" name="merchantDeliverystate" id="merchantDeliverystate" required>
-                                    <option value="">State</option>
-                                    <?php 
-                                    if($states)
-                                        {
-                                        foreach($states as $row)
-                                        {
-                                    ?>
-                                     <option value="<?php echo $row->name; ?>"><?php echo $row->name; ?></option>
-                                     <?php
-                                        }
-                                    }
-                                    ?>
-                                  </select>
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                  <label class="control-label">Sender LGA:</label>
-                                    <select class="form-control select" name="merchantDeliverylga" id="merchantDeliverylga" required>
-                                      <option value="">LGA</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                
-                                <h2>Reciever Details:</h2><br>
-                                <div class="form-group col-md-6">
-                                 
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Reciever name:</label>
-                                    <input type="text" name="customer_name" placeholder="Name" class="customer_name form-control" id="customer_name">
-                                  </div>
-                                  
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Reciever Phone:</label>
-                                    <input type="text" name="customer_contact" placeholder="Contact" class="customer_contact Number form-control" id="customer_contact">
-                                  </div>
-                                  
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Reciever Email:</label>
-                                    <input type="email" name="customer_email" placeholder="Email" class="customer_email form-control" id="customer_email">
-                                  </div>
-                                  
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Reciever Address:</label>
-                                    <input type="text" name="customer_address" placeholder="Address" class="customer_address form-control" id="customer_address">
-                                  </div>
-                                  
-                                  <div class="form-group col-md-12">
-                                    <label class="control-label">Reciever State:</label>
-                                    <select class="form-control select" name="customerDeliverystate" id="customerDeliverystate" required>
-                                      <option value="">State</option>
-                                      <?php 
-                                      if($states)
-                                          {
-                                          foreach($states as $row)
-                                          {
-                                      ?>
-                                      <option value="<?php echo $row->name; ?>"><?php echo $row->name; ?></option>
-                                      <?php
-                                          }
-                                      }
-                                      ?>
-                                    </select>
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                  <label class="control-label">Reciever LGA:</label>
-                                    <select class="form-control select" name="customerDeliverylga" id="customerDeliverylga" required>
-                                      <option value="">LGA</option>
-                                    </select>
-                                  </div>
-                                  
-                                </div>
-                                <a class="btn btn-previous" title="Back" style="color: #F69147;margin-left: 21px">Previous</a> 
-                                <a class="btn btn-next" title="Next" style="color: #F69147; float:right; margin-right: 14px">Next<span><i class="material-icons" style="font-size: 17px;margin-top: -2px;">arrow_forward_ios</i></span></a> 
-                            </div>
-                            <br><br>
-                          </fieldset>
-
-                          <fieldset>
-                              <div class="form-top">
-                                <div class="form-top-left">
-                                  <h3>Step 3 /3</h3>
-                                    <p>Courier details:</p>
-                                </div>
-                                <div class="form-top-right">
-                                  
-                                </div>
-                              </div>
-                                <div class="form-bottom">
-                                    <div class="form-group col-md-12">
-                                        <div class="form-group col-md-6">
-                                        <label class="control-lable">Courier:</label>
-                                        <select class="form-control select"  name="selectCourier" id="selectCourier">
-                                            <option>Select Courier</option>
-                                         <?php 
-                                            if($couriers)
-                                                {
-                                                foreach($couriers as $row)
-                                                {
-                                            ?>
-                                            <option value="<?php echo $row->courier_name; ?>"><?php echo $row->courier_name; ?></option>
-                                        <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                     </div>
-                                     
-                                </div>
-                                
-                                <div class="form-bottom">
-                                  <div class="form-group col-md-12 col-md-offset-4" id="loader"> 
-                                    <svg width="200px"  height="200px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background: none;">
-                                        <circle cx="50" cy="50" r="10.7529" fill="none" ng-attr-stroke="{{config.c1}}" ng-attr-stroke-width="{{config.width}}" stroke="#F07B2C" stroke-width="2">
-                                          <animate attributeName="r" calcMode="spline" values="0;15" keyTimes="0;1" dur="0.9" keySplines="0 0.2 0.8 1" begin="-0.45s" repeatCount="indefinite"></animate>
-                                          <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="0.9" keySplines="0.2 0 0.8 1" begin="-0.45s" repeatCount="indefinite"></animate>
-                                        </circle>
-                                        <circle cx="50" cy="50" r="2.47627" fill="none" ng-attr-stroke="{{config.c2}}" ng-attr-stroke-width="{{config.width}}" stroke="#ffffff" stroke-width="2">
-                                          <animate attributeName="r" calcMode="spline" values="0;15" keyTimes="0;1" dur="0.9" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"></animate>
-                                          <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="0.9" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"></animate>
-                                        </circle>
-                                      </svg>
-                                  </div>
-                                  <div class="form-group col-md-12">
-                                        <label class="control-label" id="item_cost_label">Item Cost:</label>
-                                        <input type="text" value="0.00" class="form-control" id="item_cost" disabled>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label" id="shipping_cost_label">Delivery Fee:</label>
-                                        <input type="text" value="0.00" class="form-control" id="shipping_cost" disabled>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label class="control-label"  id="total_amount_label">Total Payment:</label>
-                                        <input type="text" value="0.00" class="form-control" id="total_amount" disabled>
-                                    </div><br>
-                                    <div class="form-group col-md-7" style="float:left;">
-                                      <p id="coupon_text" style="font-size:12px; font-weight:bold; margin-top: 15px;">Enter a valid promotional coupon code here for more savings</p>
-                                    </div>
-                                    <div class="form-group col-md-5" style="float:right;">
-                                      <input type="text" class="form-control" id="coupon_code" value="">
-                                    </div>
-                                    <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
-                                </div>
-                             
-                              <br>
-                              <br>
-                              <hr>
-                              <a class="btn btn-previous" title="Back" style="color: #F69147; margin-left: 29px; margin-top: 20px;">Previous</a> 
-                              <a class="btn" title="Send your package" style="display:none; color: #F69147; float:right; margin-right: 25px; margin-top: 20px;"  id="netplus-pay"><span><i class="material-icons" ></i></span>Send Package</a>                           
-                             <!-- <button type="submit" class="btn btn-success" id="netplus-pay" style="display:none;">Send Package!</button> -->
-                              <br><br>
-                          </fieldset>
-                        
-                        </form>
-                        
-                        </div>
-                    </div>
-                </div>
+<form action="#" method="post" class="registration-form">
+<div id="paymentFrame"></div> 
+    <section id="middle" class="first-page">
+      <div class="middle">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="middle-lhs">
+                <img src="/assets/images/website_img.jpg" class="" style="margin-top:55px">
+              </div>
             </div>
-            
+
+
+            <div class="col-lg-6">
+              <div class="middle-rhs">
+                <h4>ENJOY EASE WITH YOUR DELIVERY</h4>
+                <div class="form-container">
+
+                  <div class="form-box">
+                    <p>What are we sending out today? </p>
+                    <select name="item_weight" id="item_weight" class="form-txt">
+                      <option class="form-option" value="">SELECT</option>
+                      <option value="0.5">Package up to 0.5kg</option>
+                      <option value="1">Package up to 1kg</option>
+                      <option value="1.5">Package up to 1.5kg</option>
+                      <option value="2">Package up to 2kg</option>
+                      <option value="2.5">Package up to 2.5kg</option>
+                      <option value="3">Package up to 3kg</option>
+                      <option value="3.5">Package up to 3.5kg</option>
+                      <option value="4">Package up to 4kg</option>
+                      <option value="4.5">Package up to 4.5kg</option>
+                      <option value="5">Package up to 5kg</option>
+                      <option value="5.5">Package up to 5.5kg</option>
+                      <option value="6">Package up to 6kg</option>
+                      <option value="6.5">Package up to 6.5kg</option>
+                      <option value="7">Package up to 7kg</option>
+                      <option value="7.5">Package up to 7.5kg</option>
+                      <option value="8">Package up to 8kg</option>
+                      <option value="8.5">Package up to 8.5kg</option>
+                      <option value="9">Package up to 9kg</option>
+                      <option value="9.5">Package up to 9.5kg</option>
+                      <option value="10">Package up to 10kg</option>
+                    </select>
+                  </div>
+
+                  <div class="form-box">
+                    <p>Where is your pickup location?</p>
+                    <select name="merchantState" id="merchantState" class="form-txt">
+                       <option class="form-option" value="">STATE</option>
+                       <?php
+                            if($states)
+                            {
+                                foreach($states as $row)
+                            {
+                        ?>
+                            <option value="<?php echo $row->name; ?>"><?php echo $row->name; ?></option>
+                        <?php
+                            }
+                        }
+                        ?>
+                     </select>
+                  </div>
+
+                  <div class="form-box">
+                      <select name="merchantLga" id="merchantLga" class="form-txt">
+                        <option class="form-option" value="">LGA</option>
+                      </select>
+                  </div>
+
+                  <div class="form-box">
+                     <p>Where are we delivering to? </p>
+                     <select name="customerState" id="customerState" class="form-txt">
+                       <option value="" class="form-option">STATE</option>
+                       <?php
+                          if($states)
+                          {
+                            foreach($states as $row)
+                          {
+                        ?>
+                         <option value="<?php echo $row->name; ?>"><?php echo $row->name; ?></option>
+                        <?php
+                          }
+                        }
+                        ?>
+                     </select>
+                  </div>
+
+                  <div class="form-box">
+                      <select name="customerLga" id="customerLga" class="form-txt">
+                        <option class="form-option" value="">LGA</option>
+                      </select>
+                  </div>
+
+                  <div><br>
+                    <a class="btn btn-next" style="float: right; background-color: #F69147; ">Next</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+    <!-- End of first page -->
+
+
+    <!-- Second page -->
+    <section id="middle" class="second-page">
+      <div class="middle">
+        <div class="container">
+          <h3 class="courier-text">CHOOSE YOUR PREFERED COURIER</h3>
+          
+          <div class="section group" align="center">
+            <div class="col span_1_of_5">
+              
+              <a href="#" style="text-decoration:none;">
+
+                <div class="courier">
+                <input type="radio" name="radiobtn" id="radiobtn" value="courer-one" style="display:none"/>
+                  <div class="courier-logo" align="center">
+                    <img class="img-fluid" src="/assets/images/fedex_logo.jpg" />
+                  </div>
+
+                  <div class="courier-name" align="center">
+                    FedEx
+
+                  </div>
+
+                  <div class="price" align="center">
+                      <h3 id="courier0">N1000</h3>
+                      <input type="hidden" id="courierid0" value="SAfceb761" />
+                  </div>
+                  <p  style="font-size:12px">1 - 3days</p>
+                  <div class="select" align="center" >
+                    <h4 class="courier-one">SELECT</h4>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="col span_1_of_5">
+             
+              <a href="#" style="text-decoration:none;">
+               <div class="courier1">
+                <input type="radio"  class="radiobtn" id="radiobtn" value="courer-two" style="display:none"/>
+                 <div class="courier-logo2" align="center">
+                   <img class="img-fluid" src="/assets/images/upss_logo.jpg" />
+                 </div>
+
+                 <div class="courier-name2" align="center">
+                   UPS
+                 </div>
+
+                 <div class="price2" align="center">
+                     <h3 id="courier1">N1000</h3>
+                     <input type="hidden" id="courierid1" value="SAf9fac5e" />
+                 </div>
+                 <p  style="font-size:12px">1 - 3days</p>
+
+                 <div class="select" align="center" >
+                   <h4 class="courier-two">SELECT</h4>
+                 </div>
+
+               </div>
+              </a>
+            </div>
+
+            <div class="col span_1_of_5">
+              <input type="radio" id="radiobtn" value="courer-three" style="display:none"/>
+              <a href="#" style="text-decoration:none;">
+                <div class="courier2">
+                  <div class="courier-logo" align="center">
+                    <img class="img-fluid" src="/assets/images/dhl_logo.jpg" />
+                  </div>
+
+                  <div class="courier-name" align="center">
+                    DHL
+                  </div>
+
+                  <div class="price" align="center">
+                    <h3 id="courier2">N1000</h3>
+                    <input type="hidden" id="courierid2" value="SA505f6e8" />
+                  </div>
+                  <p  style="font-size:12px">1 - 3days</p>
+                  <div class="select" align="center" >
+                    <h4 class="courier-three">  SELECT </h4>
+                  </div>
+
+                </div>
+              </a>
+            </div>
+            <div class="col-md-6 col-md-offset-2" id="loader"> 
+              <svg width="200px"  height="200px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background: none;">
+                <circle cx="50" cy="50" r="10.7529" fill="none" ng-attr-stroke="{{config.c1}}" ng-attr-stroke-width="{{config.width}}" stroke="#F07B2C" stroke-width="2">
+                  <animate attributeName="r" calcMode="spline" values="0;15" keyTimes="0;1" dur="0.9" keySplines="0 0.2 0.8 1" begin="-0.45s" repeatCount="indefinite"></animate>
+                  <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="0.9" keySplines="0.2 0 0.8 1" begin="-0.45s" repeatCount="indefinite"></animate>
+                </circle>
+                <circle cx="50" cy="50" r="2.47627" fill="none" ng-attr-stroke="{{config.c2}}" ng-attr-stroke-width="{{config.width}}" stroke="#ffffff" stroke-width="2">
+                  <animate attributeName="r" calcMode="spline" values="0;15" keyTimes="0;1" dur="0.9" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"></animate>
+                  <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="0.9" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"></animate>
+                </circle>
+              </svg>
+            </div>
+            <div class="col span_1_of_5">
+              <input type="radio" id="radiobtn" value="courer-four" style="display:none"/>
+              <a href="#" style="text-decoration:none;">
+                <div class="courier3">
+                  <div class="courier-logo" align="center">
+                    <img class="img-fluid" src="/assets/images/sn_logo.jpg" />
+                  </div>
+
+                  <div class="courier-name" align="center">
+                    SkyNet
+                  </div>
+                  
+
+                  <div class="price" align="center">
+                   <h3 id="courier3"><span>&#8358;</span></h3>
+                    <input type="hidden" id="courierid3" value="SAa28a764" />
+                  </div>
+                  <p  style="font-size:12px">Next day delivery</p>
+
+                  <div class="select" align="center" >
+                    <h4 class="courier-four">SELECT</h4>
+                  </div>
+                 
+                </div>
+              </a>
+            </div>
+
+            <div class="col span_1_of_5">
+              <input type="radio" id="radiobtn" value="courier-five" style="display:none"/>
+              <a href="#" style="text-decoration:none;">
+                <div class="courier4">
+                  <div class="courier-logo" align="center">
+                    <img class="img-fluid" src="/assets/images/muve_logo.jpg"  style="width:80px; height: 30px;"/>
+                  </div>
+
+                  <div class="courier-name" align="center">
+                  Muve 
+                  </div>
+
+                  <div class="price" align="center">
+                    <h3 id="courier4">N1000</h3>
+                    <input type="hidden" id="courierid4" value="SA98bbd50" />
+                  </div>
+
+                  <p style="font-size:12px">Same day delivery</p>
+
+                  <div class="select" align="center">
+                    <h4 class="courier-five">  SELECT </h4>
+                  </div>
+
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div>
+            <a class="btn btn-prev" style="background-color: #F69147; margin-bottom: 10px; font-weight: bolder; margin-left: 20px;">Back</a>
+          </div>
+        </div>
+      </div>
+      
+    
+    </section>
+    <!-- End of second page -->
+
+    <!-- third page -->                
+    <section id="middle" class="third-page" style="border-top:1px solid #ccc;">
+    <div class="container">
+      <div class="details-middle">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="middle-lhs2">
+              <h4>Kindly fill your details below</h4>
+
+                <div style="font-weight:bold; margin-top: 30px; color: #f69147;">Senders Details</div>
+
+                  <div class="input-style">
+                    <input data-name="name" type="text" data-required name="name" id="merchant_contactname" placeholder="Sender's Full Name" class="form_space" required>
+                  </div>
+
+                  <div class="input-style">
+                    <input data-name="phone" type="text" data-required name="phone" id="merchant_phone" placeholder="Sender's Phone Number" class="form_space" required>
+                  </div>
+
+                  <div class="input-style">
+                    <input data-name="email" type="email" data-required name="phone" id="merchant_email" placeholder="Sender's Email Address" class="form_space" required>
+                  </div>
+
+
+                  <div class="input-style">
+                      <input data-name="senders-address" type="text" data-required name="senders-address" id="merchant_address" placeholder="Sender's Address" class="textarea" required>
+                  </div>
+                  <div class="input-style">
+                  <a class="btn btn-prev" style="float: left; background-color: #F69147; display:block;">Back</a>
+                  </div>
+                </div>
+                
+              </div>
+
+
+              <div class="col-lg-6">
+                <div class="middle-rhs2">
+                  <div style="font-weight:bold; margin-top: 30px; color: #f69147;">Receiver's Details</div>
+
+                  <div class="input-style">
+                      <input data-name="name" type="text" data-required name="name" id="customer_name" placeholder="Receiver's Full Name" class="form_space" required>
+                  </div>
+
+                  <div class="input-style">
+                    <input data-name="phone" type="text" data-required name="phone" id="customer_phone" placeholder="Receiver's Phone Number" class="form_space" required>
+                  </div>
+
+                  <div class="input-style">
+                    <input data-name="email" type="email" data-required name="phone" id="customer_email" placeholder="Receiver's Email Address" class="form_space" required>
+                  </div>
+
+                  <div class="input-style">
+                      <input data-name="senders-address" type="text" data-required name="receivers-address" id="customer_address" placeholder="Receiver's Address" class="textarea" required>
+                  </div>
+                  <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
+                  <div class="input-style">
+                
+                  <!-- <input id="submit" type="submit" name="pay" class="button2" value="SEND PACKAGE"> -->
+                   <a class="btn btn-pay" id="netplus-pay"  style="float: right; background-color: #F69147;">Pay</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </section>
+    <!-- End of third page -->
+
+    
+    </form>

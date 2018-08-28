@@ -45,7 +45,7 @@ class Jit_model extends CI_Model{
 
     public function get_courier()
     {
-        $this->db->select('courier_name');
+        $this->db->select('courier_id');
         $this->db->from('couriers');
 
         $data = $this->db->get();
@@ -53,32 +53,6 @@ class Jit_model extends CI_Model{
         if($data->num_rows() > 0)
         {
             return $data->result();;
-        }
-    }
-
-    public function get_courier_details($id)
-    {
-        $this->db->select('courier_name, email')->from('couriers')
-                ->where('courier_id', $id);
-        $courier = $this->db->get();
-        if($courier->num_rows() > 0) 
-        {
-            return $courier->row();
-        }else{
-            return false;
-        }
-    }
-
-    public function get_courier_id($where)
-    {
-        $this->db->select('courier_id')->from('couriers');
-        $this->db->where(['courier_name' => $where]);
-        $courier = $this->db->get();
-        if($courier->num_rows() > 0)
-        {
-            return $courier->row();
-        }else{
-            return false;
         }
     }
 
@@ -108,18 +82,14 @@ class Jit_model extends CI_Model{
         }
     }
 
-    public function get_coupon_value($date, $details)
+    public function get_courier_details($id)
     {
-        $this->db->select('coupon_value')->from('coupon');
-        $this->db->where('coupon_name', $details);
-        $this->db->where('start_date <=', $date);
-        $this->db->where('end_date >=', $date);
-        
-       
-        $coupon_value = $this->db->get();
-        if($coupon_value->num_rows() > 0)
+        $this->db->select('courier_name, email')->from('couriers')
+                ->where('courier_id', $id);
+        $courier = $this->db->get();
+        if($courier->num_rows() > 0) 
         {
-            return $coupon_value->row();
+            return $courier->row();
         }else{
             return false;
         }

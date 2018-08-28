@@ -88,4 +88,6 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define('ADMIN_EMAIL', "saddle@netplusadvisory.com");
 define("ADMIN_EMAIL_NAME", "Saddle Send Package");
 define('ADMIN_PASSWORD', 'Saddle7890');
-
+// define('ADMIN_EMAIL', "manieabiodun@gmail.com");
+// define("ADMIN_EMAIL_NAME", "Saddle Send Package");
+// define('ADMIN_PASSWORD', 'Netmanie93');

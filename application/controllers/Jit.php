@@ -11,13 +11,14 @@ class Jit extends CI_Controller {
         $this->load->model('jit_model');
     }
 	public function index()
-	{        
+	{
+		$data['states'] = $this->jit_model->get_state();
 		$data['order_id'] = $this->get_order_id();
-        $data['states'] = $this->jit_model->get_state();
-        $data['couriers'] = $this->jit_model->get_courier();
+		$_SESSION['order_id'] = $data['order_id'];
 
 		if(isset($_REQUEST['create'])){
 			$post = array();
+			var_dump($post);
 			die;
 		}else{
 			$this->load->view('layouts/header');
@@ -25,173 +26,62 @@ class Jit extends CI_Controller {
 			$this->load->view('layouts/footer');
 		}
 		
+    }
+    
+    public function merchant_delivery_lga()
+    {
+        $state = $this->input->post('state');
+        $lga =  $this->jit_model->get_lga($state);
+
+	}
+	
+	public function fetch_shipping_details()
+	{
+		$details['weight'] = $this->input->post('weight');
+		$details['merchant_state'] = $this->input->post('merchant_state');
+		$details['merchant_lga'] = $this->input->post('merchant_lga');
+		$details['customer_state'] = $this->input->post('customer_state');
+		$details['customer_lga'] = $this->input->post('customer_lga');
+		$_SESSION['details'] = $details;
+		$this->shipping_method_price($details);
+	}
+
+	public function get_couriers()
+	{
+		$courier = $this->jit_model->get_courier();
+		return $courier;
+		
+	}
+
+	public function get_courier_id()
+	{
+		$_SESSION['courier_id'] = $this->input->post('courier_id');
+		$_SESSION['shipping_price'] = $this->input->post('shipping_price');
 	}
 
 	public function get_order_id()
 	{
 		$order_id = 'SPCK'.date("Y").mt_rand(1000000, 9999999);  
-		$_SESSION['order_id'] = $order_id;
-		return $_SESSION['order_id'];
+		return  $order_id;
 	}
-	
-    public function get_order_details()
-    {
-        $data['item_name'] = $this->input->post('item_name');
-        $data['item_quantity'] = $this->input->post('item_quantity');
-        $data['item_weight'] = $this->input->post('item_weight');
-        $data['item_price'] = $this->input->post('item_price');
-        $data['merchant_name'] = $this->input->post('merchant_name');
-        $data['merchant_contact'] = $this->input->post('merchant_contact');
-		$data['merchant_email'] = $this->input->post('merchant_email');
-		$data['merchant_address'] = $this->input->post('merchant_address');
-        $data['customer_name'] = $this->input->post('customer_name');
-        $data['customer_contact'] = $this->input->post('customer_contact');
-		$data['customer_email'] = $this->input->post('customer_email');
-		$data['customer_address'] = $this->input->post('customer_address');
-		$data['merchant_state'] = $this->input->post('merchant_state');
-		$data['merchant_lga'] = $this->input->post('merchant_lga');
-		$data['customer_state'] = $this->input->post('customer_state');
-		$data['customer_lga'] = $this->input->post('customer_lga');
-        
-        $item_count = count($data['item_name']);
-		$data['weight'] = 0;
-		$data['total_item_cost'] = 0;
-		for($i=0; $i<$item_count; $i++)
-		{
-			$item_name[] = $data['item_name'][$i];
-			$item_quantity[] = $data['item_quantity'][$i];
-			$item_price[] = $data['item_price'][$i];
-			$item_weight[] = $data['item_weight'][$i];
-			$data['weight'] += $data['item_weight'][$i];
-			$data['total_item_cost'] += (int)$data['item_price'][$i] * (int)$data['item_quantity'][$i];
-		}
-		
-		$_SESSION['item_name'] = $item_name;
-		$_SESSION['item_price'] = $item_price;
-		$_SESSION['item_quantity'] = $item_quantity;
-		$_SESSION['item_weight'] = $item_weight;
 
-	
-		$item_price = array_sum($item_price);
-		$item_quantity = array_sum($item_quantity);
-        
-        $data['total_item_price'] = $item_price;
-		$_SESSION['total_amount'] = $data['total_item_cost'];
-
-
-		$_SESSION['transaction'] = $data;
-
-		// Store merchant details into the database
+	public function store_transaction_details()
+	{
 		$merchant_details['transaction_id'] = $_SESSION['order_id'];
-		$merchant_details['merchant_name'] = $data['merchant_name'];
-		$merchant_details['merchant_contact'] = $data['merchant_contact'];
-		$merchant_details['merchant_email'] = $data['merchant_email'];
-		$merchant_details['merchant_address'] = $data['merchant_address'];
-		$merchant_details['merchant_state'] = $data['merchant_state'];
-		$merchant_details['merchant_lga'] = $data['merchant_lga'];
-
-		// Checks if the transaction id already exists in the database
-		$transaction = $this->jit_model->get_transaction($_SESSION['order_id']);
+		$merchant_details['merchant_name'] = $this->input->post('merchant_contactname');
+		$merchant_details['merchant_contact'] = $this->input->post('merchant_phone');
+		$merchant_details['merchant_email'] = $this->input->post('merchant_email');
+		$merchant_details['merchant_address'] = $this->input->post('merchant_address');
+		$merchant_details['merchant_state'] = $_SESSION['details']['merchant_state'];
+		$merchant_details['merchant_lga'] = $_SESSION['details']['merchant_lga'];
+		$transaction = $this->jit_model->get_transaction($merchant_details['transaction_id']);
 		if(!$transaction)
 		{
 			$this->jit_model->store_merchant($merchant_details);
-		}
-
-    }
-    
-    public function merchant_delivery_lga()
-    {
-       
-        $state = $this->input->post('state');
-        $lga =  $this->jit_model->get_lga($state);
-
-    }
-
-     public function customer_delivery_lga()
-    {
-        $state = $this->input->post('state');
-        $lga =  $this->jit_model->get_lga($state);
-    }
-
-
-    public function get_courier_name()
-    {
-        $courier_name =  $this->input->post('courier');
-        $_SESSION['courier'] = $courier_name;
-      
-		return $courier_name;
-	}
-	
-	public function get_coupon()
-	{
-		$date = date("Y-m-d");
-		$coupon_code = $this->input->post('coupon_code');
-		$coupon = $this->jit_model->get_coupon_value($date, $coupon_code);
-		
-		if($coupon){
-			$coupon_value = (float)$coupon->coupon_value;
-			echo json_encode(['coupon_value'=>$coupon_value]);
 		}else{
-			echo json_encode(['coupon_value' => 'Invalid coupon']);
-			
+			var_dump("update transaction table");
 		}
-	}
-
-
-    public function shipping_method_price()
-    {
-		$courier =  $this->jit_model->get_courier_id($_SESSION['courier']);
-	
-		if($courier) {
-			$courier_id = $courier->courier_id;
-		}else{
-			$courier_id = '';
-		}
-
-		$item_price = $_SESSION['transaction']['item_price'];
-		$pickup_state = $_SESSION['transaction']['merchant_state'];
-		$delivery_state = $_SESSION['transaction']['customer_state'];
-		$pickup_lga =$_SESSION['transaction']['merchant_lga'];
-		$delivery_lga = $_SESSION['transaction']['customer_lga'];
-		$weight = $_SESSION['transaction']['weight'];
-		$quantity = $_SESSION['transaction']['item_quantity'];
-		$courier_id = $courier_id;
-
-		$_SESSION['select_courier'] = $courier_id;
-
-		$weight = (int)$weight * (int)$quantity;
-		$item_price = (int)$item_price * (int)$quantity;
-
-		$url = 'http://new.saddleng.com/api/v2/shipping_price';
-		$token = $this->get_token();
-		$body = json_encode(array('delivery_state' => $delivery_state, 'pickup_state' => $pickup_state, 'delivery_lga'=> $delivery_lga, 'pickup_lga' => $pickup_lga, 'weight' => $weight, 'courier_id' => $courier_id));
-		$header = array('Content-Type: application/json', 
-		'Authorization: Bearer '.$token);
-
-
-		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		$price = curl_exec($ch);
-
-
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-		curl_close($ch);
-		if ($httpcode == 200 && $price > 0) {
-			$shippingPrice = $price;
-			$_SESSION['shipping_price'] = $shippingPrice;
-			//$_SESSION['total_amount'] = $shippingPrice + $item_price;
-
-		} else if($httpcode == 404) {
-			$shippingPrice = 0;
-			
-		}else{
-			$shippingPrice = 0;
-		}
-		echo json_encode(['shipping_price'=>$shippingPrice]);
+		return $merchant_details;
 	}
 
 	public function get_token()
@@ -210,8 +100,9 @@ class Jit extends CI_Controller {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 		$token = curl_exec($ch);
 		$value = json_decode($token);
+		
 		return $value->token;
-		}
+	}
 
 	public function update_transactions()
 	{
@@ -219,97 +110,91 @@ class Jit extends CI_Controller {
 		$this->jit_model->update_transaction($order_id);
 	}
 
+	public function shipping_method_price($data)
+	{
+		$couriers = $this->get_couriers();
+		$total_couriers =  count($couriers);
+		foreach($couriers as $courier)
+		{
+			$pickup_state = $data['merchant_state'];
+			$pickup_lga = $data['merchant_lga'];
+			$weight = $data['weight'];
+			$delivery_state = $data['customer_state'];
+			$delivery_lga = $data['customer_lga'];
+			$url = 'http://new.saddleng.com/api/v2/shipping_price';
+			$token = $this->get_token();
+			$body = json_encode(array('delivery_state' => $delivery_state, 'pickup_state' => $pickup_state, 'delivery_lga'=> $delivery_lga, 'pickup_lga' => $pickup_lga, 'weight' => $weight, 'courier_id' => $courier->courier_id));
+			$header = array('Content-Type: application/json', 
+			'Authorization: Bearer '.$token);
 
-	public function download() {
-		// database record to be exported
-		$db_record = 'transactions';
-		$where = 'WHERE `transaction_time` > (NOW() - INTERVAL 2 DAY)';
-		// filename for export
-		$csv_filename = 'db_export_'.$db_record.'_'.date('Y-m-d').'.csv';
 
-		// database variables
-		$hostname = "localhost";
-		$user = "jitsaddleuser";
-		$password = "j!tU53r";
-		$database = "jitsaddle";
-		$port = 3306;
-	
-		$conn = mysqli_connect($hostname, $user, $password, $database, $port);
-		if (mysqli_connect_errno()) {
-    		die("Failed to connect to MySQL: " . mysqli_connect_error());
-		}
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+			$price = curl_exec($ch);
 
-		$csv_export = '';
 
-		// query to get data from database
-		$query = mysqli_query($conn, "SELECT * FROM ".$db_record." ".$where);
-		$field = mysqli_field_count($conn);
+			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-		// create line with field names
-		for($i = 0; $i < $field; $i++) {
-			$csv_export.= mysqli_fetch_field_direct($query, $i)->name.',';
-		}
-
-		$csv_export.= '
-		';
-
-		while($row = mysqli_fetch_array($query)) {
-			for($i = 0; $i < $field; $i++) {
-				$csv_export.= '"'.$row[mysqli_fetch_field_direct($query, $i)->name].'",';
+			curl_close($ch);
+			if ($httpcode == 200 && $price > 0) {
+				$shippingPrice = $price;
+			} else if($httpcode == 404) {
+				$shippingPrice = 0;
+				
+			}else{
+				$shippingPrice = 0;
 			}
-			$csv_export.= '
-			';
-		}
+			$array[] = array(
+						'shipping_price'=>$shippingPrice,
+						'courier_id'=>$courier->courier_id);
+			
+			
+			}
+			
+			echo json_encode($array);
 
-		header("Content-type: text/x-csv");
-		header("Content-Disposition: attachment; filename=".$csv_filename."");
-		echo($csv_export);
 	}
 
-	public function courier()
+	public function post_shipping()
 	{
-		log_message("debug","courier endpoint: entry");
 		$data['transaction_id'] = $_SESSION['order_id'];
 		$pickup_type = 'mercht-loc';
-		$courier_id = $_SESSION['select_courier'];
-
-		$item_name = $_SESSION['transaction']['item_name'];
-		$item_price = $_SESSION['transaction']['item_price'];
-		$pickup_state = $_SESSION['transaction']['merchant_state'];
-		$delivery_state = $_SESSION['transaction']['customer_state'];
-		$pickup_lga =$_SESSION['transaction']['merchant_lga'];
-		$delivery_lga = $_SESSION['transaction']['customer_lga'];
-		$weight = $_SESSION['transaction']['item_weight'];
-		$quantity = $_SESSION['transaction']['item_quantity'];
-		$merchant_name = $_SESSION['transaction']['merchant_name'];
-        $merchant_contact = $_SESSION['transaction']['merchant_contact'];
-		$merchant_email = $_SESSION['transaction']['merchant_email'];
-		$merchant_address = $_SESSION['transaction']['merchant_address'];
-        $customer_name =$_SESSION['transaction']['customer_name'];
-		$customer_contact = $_SESSION['transaction']['customer_contact'];
-		$customer_address = $_SESSION['transaction']['customer_address'];
-		$customer_email =$_SESSION['transaction']['customer_email'];
-		$delivery_cost = $_SESSION['shipping_price'];
-
-		$item_count = count($item_name);
-
-		for($i=0; $i<$item_count; $i++)
-		{
-			$items[] = array(
-				'item_cost' 	=>  $item_price[$i],
-				'item_name' 	=>  $item_name[$i],
-				'item_size' 	=> '0',
-				'item_weight' 	=> $weight[$i],
-				'item_color' 	=>  'NULL',
-				'item_quantity' =>$quantity[$i],
-				'image_location' => 'NULL',
-				'fragile' 		=> 0,
-				'perishable' 	=> 0,
-			);
+		$data['courier_id'] = $_SESSION['courier_id'];
+		$item_name = 'Sendpackage Item';
+		$item_price = '0';
+		$weight = $_SESSION['details']['weight'];
 		
-		}
+		$quantity = '0';
+		
+		$merchant_name = $this->input->post('merchant_name');
+		$merchant_contact = $this->input->post('merchant_phone'); 
+		$merchant_email =  $this->input->post('merchant_email');
+		$merchant_address = $this->input->post('merchant_address');
+		$merchant_state = $_SESSION['details']['merchant_state'];
+		$merchant_lga = $_SESSION['details']['merchant_lga'];
+		$customer_name = $this->input->post('customer_name');
+		$customer_contact = $this->input->post('customer_phone'); 
+		$customer_address = $this->input->post('customer_address');
+		$customer_email =  $this->input->post('customer_email');
+		$customer_state = $_SESSION['details']['customer_state'];
+		$customer_lga = $_SESSION['details']['customer_lga'];
+		$delivery_cost = $_SESSION['shipping_price'];
+		
+		$items[] = array(
+			'item_cost' => $item_price,
+			'item_name' => $item_name,
+			'item_size' => '0',
+			'item_weight' => $weight,
+			'item_color' => 'NULL',
+			'item_quantity' => $quantity,
+			'image_location' => 'NULL',
+			'fragile' => 0,
+			'perishable' => 0,
+		);
 
-		$data['courier_id'] = $courier_id;
 		$data['orders'] = array('items' => $items);
 		$data['pickup_handling'] = $pickup_type;
 		$data['delivery_handling'] = "to_customer";
@@ -318,18 +203,17 @@ class Jit extends CI_Controller {
 			'merchant_phone' 		=> $merchant_contact,
 			'merchant_email' 		=> $merchant_email,
 			'merchant_address' 		=> $merchant_address,
-			'merchant_lga' 			=> $pickup_lga,
-			'merchant_state' 		=> $pickup_state,
+			'merchant_lga' 			=> $merchant_lga,
+			'merchant_state' 		=> $merchant_state,
 			'country' 				=> 'Nigeria',
 		);
-
 		$data['delivery'] = array(
 			'customer_name'		=> $customer_name,
 			'customer_email' 	=> $customer_email,
 			'customer_phone'	=> $customer_contact,
 			'customer_address'  => $customer_address,
-			'customer_lga'		=> $delivery_lga,
-			'customer_state'	=> $delivery_state,
+			'customer_lga'		=> $customer_lga,
+			'customer_state'	=> $customer_state,
 			'country'			=> 'Nigeria',
 		);
 		$data['POD'] = 0;
@@ -341,14 +225,10 @@ class Jit extends CI_Controller {
 
 		$post = json_encode(['transaction' => $data]);
 
-		log_message("debug","courier endpoint: getting saddle token");
-
 		$url = "http://new.saddleng.com/api/v2/delivery";
 		$token = $this->get_token();
 
 		$header = array('Content-Type: application/json', 'Authorization: Bearer '.$token);
-
-		log_message("debug","courier endpoint: posting data to saddleng");
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");  
@@ -357,24 +237,19 @@ class Jit extends CI_Controller {
 		curl_setopt($ch,CURLOPT_HTTPHEADER, $header); 
 		$result = curl_exec($ch);
 	
-		
 		$res = json_decode($result);
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch); 
 		if($httpcode == 200)
 		{
-			//Successful Transaction
-			log_message("debug","courier endpoint: post resturned successfully");
-			log_message("debug","courier endpoint: updating transactions table");
-
+			
+			//First update transaction
 			$this->update_transactions();
 
 			// Get selected courier details from the Database
-			$courier =  $this->jit_model->get_courier_details($courier_id);
+			$courier =  $this->jit_model->get_courier_details($data['courier_id']);
 			$courier_name =  $courier->courier_name;
 			$courier_email = $courier->email;
-
-			log_message("debug","courier endpoint: post resturned successfully");
 
 			$merchant_email_message =  $this->merchant_email($data);
 
@@ -399,8 +274,6 @@ class Jit extends CI_Controller {
 			$this->email->subject('Order on Saddle Send Package');
 
 			$send_merchant_email  = $this->email->message($message);
-
-			log_message("debug","courier endpoint: sending merchant email");
 			$this->email->send($send_merchant_email);
 
 			//Send email to courier
@@ -416,8 +289,6 @@ class Jit extends CI_Controller {
 			$temail = $this->email->to($courier_email, $courier_name);
 			$semail = $this->email->subject('Order on Saddle Send Package');
 			$send_courier_email  = $this->email->message($courier_message);
-
-			log_message("debug","courier endpoint: sending courier email");
 			$this->email->send($send_courier_email);
 
 
@@ -435,8 +306,6 @@ class Jit extends CI_Controller {
 			$subemail = $this->email->subject('Order on Saddle Send Package');
 
 			$send_customer_email  = $this->email->message($customer_message);
-
-			log_message("debug","courier endpoint: sending customer email");
 			$this->email->send($send_customer_email);
 
 			//Email sent to Netplus
@@ -453,20 +322,20 @@ class Jit extends CI_Controller {
 			$semail = $this->email->subject('Order on Saddle Send Package');
 
 			$send_netplus_email  = $this->email->message($netplus_message);
-
-			log_message("debug","courier endpoint: sending netplus email");
-
 			$this->email->send($send_netplus_email);
 			
 			$this->load->view('layouts/header');
 			$this->load->view('success');
 			$this->load->view('layouts/footer');
 			$this->session->sess_destroy();
-			log_message("debug","courier endpoint: exit");
 			
+		}else{
+			$this->session->sess_destroy();
 		}
-		
 	}
+
+
+
 
 	public function merchant_email($data)
 	{
@@ -1112,5 +981,9 @@ class Jit extends CI_Controller {
 			</html>
 		   ';
 	}
-  
+
+	
+
+	
+
 }
