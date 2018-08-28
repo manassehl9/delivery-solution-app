@@ -440,7 +440,7 @@ class Jit extends CI_Controller {
 			$this->email->send($send_customer_email);
 
 			//Email sent to Netplus
-			$netplus_email_message = $this->netplus_email($data);
+			$netplus_email_message = $this->netplus_email($courier_name, $data);
 
 		    $netplus_message = ($netplus_email_message);
 
@@ -907,7 +907,7 @@ class Jit extends CI_Controller {
 		   ';
 	}
 
-	public function netplus_email($data)
+	public function netplus_email($courier_name, $data)
 	{
 		return '<!DOCTYPE html>
 			<html>
