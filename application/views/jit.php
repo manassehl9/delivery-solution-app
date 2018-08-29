@@ -17,7 +17,7 @@
                 <div class="form-container">
 
                   <div class="form-box">
-                    <p>What are we sending out today? </p>
+                    <p><strong>What are we sending out today?</strong></p>
                     <select name="item_weight" id="item_weight" class="form-txt">
                       <option class="form-option" value="">SELECT</option>
                       <option value="0.5">Package up to 0.5kg</option>
@@ -44,7 +44,7 @@
                   </div>
 
                   <div class="form-box">
-                    <p>Where is your pickup location?</p>
+                    <p><strong>Where is your pickup location?</strong></p>
                     <select name="merchantState" id="merchantState" class="form-txt">
                        <option class="form-option" value="">STATE</option>
                        <?php
@@ -68,7 +68,7 @@
                   </div>
 
                   <div class="form-box">
-                     <p>Where are we delivering to? </p>
+                     <p><strong>Where are we delivering to?</strong></p>
                      <select name="customerState" id="customerState" class="form-txt">
                        <option value="" class="form-option">STATE</option>
                        <?php
@@ -276,7 +276,7 @@
             <div class="middle-lhs2">
               <h4>Kindly fill your details below</h4>
 
-                <div style="font-weight:bold; margin-top: 30px; color: #f69147;">Senders Details</div>
+                <div style="font-weight:bold; margin-top: 30px; color: #f69147;">Sender's Details</div>
 
                   <div class="input-style">
                     <input data-name="name" type="text" data-required name="name" id="merchant_contactname" placeholder="Sender's Full Name" class="form_space" required>
@@ -294,9 +294,7 @@
                   <div class="input-style">
                       <input data-name="senders-address" type="text" data-required name="senders-address" id="merchant_address" placeholder="Sender's Address" class="textarea" required>
                   </div>
-                  <div class="input-style">
-                  <a class="btn btn-prev" style="float: left; background-color: #F69147; display:block;">Back</a>
-                  </div>
+                  
                 </div>
                 
               </div>
@@ -323,7 +321,9 @@
                   </div>
                   <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
                   <div class="input-style">
-                
+
+                  <a class="btn btn-prev" style="float: left; background-color: #F69147; display:block;">Back</a>
+                  
                   <!-- <input id="submit" type="submit" name="pay" class="button2" value="SEND PACKAGE"> -->
                    <a class="btn btn-pay" id="netplus-pay"  style="float: right; background-color: #F69147;">Pay</a>
                 </div>

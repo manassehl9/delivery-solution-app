@@ -14,6 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/assets/css/home.css" rel="stylesheet">
     <link href="/assets/css/5cols.css" rel="stylesheet">

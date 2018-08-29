@@ -8,7 +8,7 @@
                 <div class="footer-top-left">
                   <a href=""><img src="/assets/images/phone_icon.jpg"></a>
                   <div class="footer-top-left-txt">
-                    0907 7716 019
+                    <a href="tel:09077716019">0907 7716 019</a>
                   </div>
                 </div>
               </div>

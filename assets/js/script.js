@@ -35,33 +35,56 @@ $(document).ready(function() {
 					console.log(value);
 					
 					var j = value.length;
-					console.log(value[0].shipping_price);
-					
-					$('h3#courier0').html('&#8358;'+value[0].shipping_price);
+					var fedex_price = value[0].shipping_price;
+					if(fedex_price > 0){
+						$('h3#courier0').html('&#8358;'+fedex_price);
+					}else{
+						$('h3#courier0').html('N/A');
+					}
 					$('h3#courierid0').val(value[0].courier_id);
 					$("h4.courier-one").text("SELECT");
 					$('.courier').css('box-shadow', '');
 					$('.courier').css('border', '');
 
-					$('h3#courier1').html('&#8358;'+value[1].shipping_price);
+					var ups_price = value[1].shipping_price;
+					if(ups_price > 0){
+						$('h3#courier1').html('&#8358;'+ups_price);
+					}else{
+						$('h3#courier1').html('N/A');
+					}
 					$('h3#courierid1').val(value[1].courier_id);
 					$("h4.courier-two").text("SELECT");
 					$('.courier1').css('box-shadow', '');
 					$('.courier1').css('border', '');
 					
-					$('h3#courier2').html('&#8358;'+value[2].shipping_price);
+					var dhl_price = value[2].shipping_price;
+					if(dhl_price > 0){
+						$('h3#courier2').html('&#8358;'+dhl_price);
+					}else{
+						$('h3#courier2').html('N/A');
+					}
 					$('h3#courierid2').val(value[2].courier_id);
 					$("h4.courier-three").text("SELECT");
 					$('.courier2').css('box-shadow', '');
 					$('.courier2').css('border', '');
 
-					$('h3#courier3').html('&#8358;'+value[3].shipping_price);
+					var skynet_price = value[3].shipping_price;
+					if(skynet_price > 0){
+						$('h3#courier3').html('&#8358;'+skynet_price);
+					}else{
+						$('h3#courier3').html('N/A');
+					}
 					$('h3#courierid3').val(value[3].courier_id);
 					$("h4.courier-four").text("SELECT");
 					$('.courier3').css('box-shadow', '');
 					$('.courier3').css('border', '');
 
-					$('h3#courier4').html('&#8358;'+value[4].shipping_price);
+					var muve_price = value[4].shipping_price;
+					if(muve_price > 0){
+						$('h3#courier4').html('&#8358;'+muve_price);
+					}else{
+						$('h3#courier4').html('N/A');
+					}
 					$('h3#courierid4').val(value[4].courier_id);
 					$("h4.courier-five").text("SELECT");
 					$('.courier4').css('box-shadow', '');
