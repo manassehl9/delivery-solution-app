@@ -452,7 +452,7 @@ class Jit extends CI_Controller {
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
-								You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
+								You can also reach us on <a href"tel:09077716019">09077716019</a> or email us at <a href="mailto:sendpackage@saddleng.com">sendpackage@saddleng.com</a>
 								</p>
 							</td>
 						</tr>
@@ -658,7 +658,7 @@ class Jit extends CI_Controller {
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
-								You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
+								You can also reach us on <a href"tel:09077716019">09077716019</a> or email us at <a href="mailto:sendpackage@saddleng.com">sendpackage@saddleng.com</a>
 								</p>
 							</td>
 						</tr>
@@ -747,7 +747,7 @@ class Jit extends CI_Controller {
 					<tr>
 						<td colspan="6" style="padding:10px 20px;">
 							<p style="text-align: center">
-							You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
+							You can also reach us on <a href"tel:09077716019">09077716019</a> or email us at <a href="mailto:sendpackage@saddleng.com">sendpackage@saddleng.com</a>
 							</p>
 						</td>
 					</tr>
@@ -953,7 +953,7 @@ class Jit extends CI_Controller {
 						<tr>
 							<td colspan="6" style="padding:10px 20px;">
 								<p style="text-align: center">
-								You can also reach us on 08099990660 or email us at saddle@netplusadvisory.com
+								You can also reach us on <a href"tel:09077716019">09077716019</a> or email us at <a href="mailto:sendpackage@saddleng.com">sendpackage@saddleng.com</a>
 								</p>
 							</td>
 						</tr>
