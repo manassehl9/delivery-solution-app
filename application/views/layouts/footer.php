@@ -15,9 +15,9 @@
 
               <div class="col-sm-4" align="center">
                 <div class="footer-top-left">
-                  <a href="mailto:sendpackage@netplusadvisory.com"><img src="/assets/images/email_icon.jpg"></a>
+                  <a href="mailto:sendpackage@saddleng.com"><img src="/assets/images/email_icon.jpg"></a>
                   <div class="footer-top-left-txt">
-                    <a href="mailto:sendpackage@netplusadvisory.com">sendpackage@netplusadvisory.com</a>
+                    <a href="mailto:sendpackage@saddleng.com">sendpackage@saddleng.com</a>
                   </div>
                 </div>
               </div>
