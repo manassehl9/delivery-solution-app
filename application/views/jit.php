@@ -2,11 +2,12 @@
 <div id="paymentFrame"></div> 
     <section id="middle" class="first-page">
       <div class="middle">
-        <div class="container-fluid">
+        <div class="container">
           <div class="row">
             <div class="col-lg-6">
               <div class="middle-lhs">
-                <img src="/assets/images/website_img.jpg" class="" style="margin-top:55px">
+                <h3>BE ONE OF 50 PEOPLE THAT GET N1000 AIRTIME THIS MONTH</h3>
+                <p>Send a package and share service with your friends and stand a chance to get N1,000 worth of airtime, ask us now? </p>
               </div>
             </div>
 
@@ -18,7 +19,7 @@
 
                   <div class="form-box">
                     <p><strong>What are we sending out today?</strong></p>
-                    <select name="item_weight" id="item_weight" class="form-txt">
+                    <select name="item_weight" id="item_weight" class="form-txt2">
                       <option class="form-option" value="">SELECT</option>
                       <option value="0.5">Package up to 0.5kg</option>
                       <option value="1">Package up to 1kg</option>
@@ -59,13 +60,11 @@
                         }
                         ?>
                      </select>
-                  </div>
 
-                  <div class="form-box">
-                      <select name="merchantLga" id="merchantLga" class="form-txt">
+                      <select name="merchantLga" id="merchantLga" class="form-txt3">
                         <option class="form-option" value="">LGA</option>
                       </select>
-                  </div>
+
 
                   <div class="form-box">
                      <p><strong>Where are we delivering to?</strong></p>
@@ -83,16 +82,13 @@
                         }
                         ?>
                      </select>
-                  </div>
 
-                  <div class="form-box">
-                      <select name="customerLga" id="customerLga" class="form-txt">
+                      <select name="customerLga" id="customerLga" class="form-txt3">
                         <option class="form-option" value="">LGA</option>
                       </select>
-                  </div>
 
                   <div><br>
-                    <a class="btn btn-next" style="float: right; background-color: #F69147; ">Next</a>
+                    <a class="btn btn-next button" style="color:white">Next</a>
                   </div>
 
                 </div>
@@ -258,7 +254,7 @@
           </div>
           
           <div>
-            <a class="btn btn-prev" style="background-color: #F69147; margin-bottom: 10px; font-weight: bolder; margin-left: 20px;">Back</a>
+            <a class="btn btn-prev" style="border-radius:2px; background-color: #F69147; margin-bottom: 10px;  font-weight: lighter; font-size: 15px; margin-left: 20px; color:white">Back</a>
           </div>
         </div>
       </div>
@@ -322,10 +318,10 @@
                   <input type="hidden" value="<?php echo $order_id; ?>" class="form-control" id="order_id">
                   <div class="input-style">
 
-                  <a class="btn btn-prev" style="float: left; background-color: #F69147; display:block;">Back</a>
+                  <a class="btn btn-prev" style="color:#fff; border-radius:2px; float: left; background-color: #F69147; display:block;">Back</a>
                   
                   <!-- <input id="submit" type="submit" name="pay" class="button2" value="SEND PACKAGE"> -->
-                   <a class="btn btn-pay" id="netplus-pay"  style="float: right; background-color: #F69147;">Pay</a>
+                   <a class="btn btn-pay" id="netplus-pay"  style="color:#fff; border-radius:2px; float: right; background-color: #F69147;">Pay</a>
                 </div>
               </div>
             </div>

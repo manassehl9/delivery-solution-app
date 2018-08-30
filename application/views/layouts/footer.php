@@ -36,16 +36,15 @@
             </div>
           </div>
 
-          <div class="footer-bottom">
-            
-              <div class="col-lg-12">
-                <div class="footer-bottom-center" style="text-align: center;">
-                  © NETPLUSDOTCOM 2018 - ALL RIGHT RESERVED
-                </div>
-            </div>
-          </div>
         </div>
       </div>
+    
+      <div class="bottom-part"> 
+        <div class="container">
+        © NETPLUSDOTCOM 2018 - ALL RIGHT RESERVED
+        </div>
+      </div>
+    </div>
     </section>
 
     <!-- <script src="https://netpluspay.com/inlinetestpayment/js/inline.js"></script> -->
