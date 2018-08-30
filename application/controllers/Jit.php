@@ -88,7 +88,7 @@ class Jit extends CI_Controller {
 	{
 		$url = 'http://new.saddleng.com/api/token';
 		//$body = json_encode(array('login' => 'DapoA', 'password' => 'password'));
-		$body = json_encode(array('login' => 'sendpackage', 'password' => 'password'));
+		$body = json_encode(array('login' => 'sendpackage', 'password' => 'Heaven123'));
 		$header = array('Content-Type: application/json', 
 		'Content-Length: ' . strlen($body));
 																					
@@ -150,8 +150,6 @@ class Jit extends CI_Controller {
 			$array[] = array(
 						'shipping_price'=>$shippingPrice,
 						'courier_id'=>$courier->courier_id);
-			
-			
 			}
 			
 			echo json_encode($array);
@@ -169,7 +167,7 @@ class Jit extends CI_Controller {
 		
 		$quantity = '0';
 		
-		$merchant_name = $this->input->post('merchant_name');
+		$merchant_name = $this->input->post('merchant_contactname');
 		$merchant_contact = $this->input->post('merchant_phone'); 
 		$merchant_email =  $this->input->post('merchant_email');
 		$merchant_address = $this->input->post('merchant_address');
@@ -318,7 +316,7 @@ class Jit extends CI_Controller {
 
 			$cemail = $this->email->initialize($config);
 			$femail = $this->email->from(ADMIN_EMAIL, ADMIN_EMAIL_NAME);
-			$temail = $this->email->to(ADMIN_EMAIL, 'Sendpackage');
+			$temail = $this->email->to(NETPLUS_EMAIL, 'Sendpackage');
 			$semail = $this->email->subject('Order on Saddle Send Package');
 
 			$send_netplus_email  = $this->email->message($netplus_message);

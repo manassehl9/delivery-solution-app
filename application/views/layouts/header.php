@@ -32,7 +32,7 @@
            <div class="col-sm-12">
              <div class="menu">
              <ul>
-                  <li><a href="tel:0907716019">Call 0907 7716 019</a></li>
+                  <li><a href="tel:0907716019" style="text-decoration: none; color:white;">Call 0907 7716 019</a></li>
                    <a href="https://new.saddleng.com" style="text-decoration:none; color:#fff;" ><li> <img src="/assets/images/logo2.jpg"></li></a>
               </ul>
             </div>
