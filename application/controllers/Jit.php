@@ -404,7 +404,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:50px; ">
 			                                '.$data['delivery']['customer_address'].'
 			                            </div>
 			                        </td>
@@ -547,7 +547,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:50px;">
 			                                '.$data['pickup']['merchant_address'].'
 			                            </div>
 			                        </td>
@@ -610,7 +610,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:50px;">
 			                                '.$data['delivery']['customer_address'].'
 			                            </div>
 			                        </td>
@@ -842,7 +842,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:50px; ">
 			                                '.$data['pickup']['merchant_address'].'
 			                            </div>
 			                        </td>
@@ -905,7 +905,7 @@ class Jit extends CI_Controller {
 			                    <tr>
 			                        <td width="40%" height="30">Address</td>
 			                        <td width="60%">
-			                            <div style="background-color:#bcc0c6; color: #000; height:30px; line-height:30px; padding: 0 10px;">
+			                            <div style="background-color:#bcc0c6; color: #000; height:50px;">
 			                                '.$data['delivery']['customer_address'].'
 			                            </div>
 			                        </td>

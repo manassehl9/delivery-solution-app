@@ -7,7 +7,8 @@
             <div class="col-lg-6">
               <div class="middle-lhs">
                 <h3>BE ONE OF 50 PEOPLE THAT GET N1000 AIRTIME THIS MONTH</h3>
-                <p>Send a package and share service with your friends and stand a chance to get N1,000 worth of airtime, ask us now? </p>
+                <p>Send a package and share service with your friends and stand a chance to get N1,000 worth of airtime, ask us how? </p>
+                <img src="/assets/images/cards_images.jpg" class="img-fluid" />
               </div>
             </div>
 
