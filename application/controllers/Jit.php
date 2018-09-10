@@ -86,7 +86,7 @@ class Jit extends CI_Controller {
 
 	public function get_token()
 	{
-		$url = 'http://new.saddleng.com/api/token';
+		$url = 'https://new.saddleng.com/api/token';
 		//$body = json_encode(array('login' => 'DapoA', 'password' => 'password'));
 		$body = json_encode(array('login' => 'sendpackage', 'password' => 'Heaven123'));
 		$header = array('Content-Type: application/json', 
@@ -98,9 +98,16 @@ class Jit extends CI_Controller {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$token = curl_exec($ch);
+		if($token == false)
+		{
+			echo json_encode([curl_error($ch)]);
+		}
 		$value = json_decode($token);
-		
+
 		return $value->token;
 	}
 
@@ -121,7 +128,7 @@ class Jit extends CI_Controller {
 			$weight = $data['weight'];
 			$delivery_state = $data['customer_state'];
 			$delivery_lga = $data['customer_lga'];
-			$url = 'http://new.saddleng.com/api/v2/shipping_price';
+			$url = 'https://new.saddleng.com/api/v2/shipping_price';
 			$token = $this->get_token();
 			$body = json_encode(array('delivery_state' => $delivery_state, 'pickup_state' => $pickup_state, 'delivery_lga'=> $delivery_lga, 'pickup_lga' => $pickup_lga, 'weight' => $weight, 'courier_id' => $courier->courier_id));
 			$header = array('Content-Type: application/json', 
@@ -133,7 +140,14 @@ class Jit extends CI_Controller {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			$price = curl_exec($ch);
+			if($price == false)
+			{
+				echo json_encode([curl_error($ch)]);
+			}
 
 
 			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -223,7 +237,7 @@ class Jit extends CI_Controller {
 
 		$post = json_encode(['transaction' => $data]);
 
-		$url = "http://new.saddleng.com/api/v2/delivery";
+		$url = "https://new.saddleng.com/api/v2/delivery";
 		$token = $this->get_token();
 
 		$header = array('Content-Type: application/json', 'Authorization: Bearer '.$token);
@@ -233,8 +247,14 @@ class Jit extends CI_Controller {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,$post);
 		curl_setopt($ch,CURLOPT_HTTPHEADER, $header); 
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
-	
+		if($result == false)
+		{
+			echo json_encode([curl_error($ch)]);
+		}
 		$res = json_decode($result);
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch); 
@@ -371,7 +391,7 @@ class Jit extends CI_Controller {
 			                <p>
 			                    Dear <strong> '.$data['pickup']['merchant_contactname'].' </strong>,<br /><br />
 			                    Your SendPackage request has been received and is being processed
-								Our rep, will contact you to pick up your item(s) within 24 hours. You can track your package with ID: '.$data['transaction_id'].' on Saddle  http://new.saddleng.com .
+								Our rep, will contact you to pick up your item(s) within 24 hours. You can track your package with ID: '.$data['transaction_id'].' on Saddle  https://new.saddleng.com .
 			                </p>
 			            </td>
 					</tr>
@@ -734,7 +754,7 @@ class Jit extends CI_Controller {
 					<tr>
 			            <td colspan="6" style="padding:10px 20px;">
 			                <p>
-								Visit http://new.saddleng.com to track your package.
+								Visit https://new.saddleng.com to track your package.
 			                </p>
 			            </td>
 			        </tr>
