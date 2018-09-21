@@ -116,17 +116,17 @@
                 <div class="courier">
                 <input type="radio" name="radiobtn" id="radiobtn" value="courer-one" style="display:none"/>
                   <div class="courier-logo" align="center">
-                    <img class="img-fluid" src="/assets/images/fedex_logo.jpg" />
+                    <img class="img-fluid" src="/assets/images/cp_logo.jpg" />
                   </div>
 
                   <div class="courier-name" align="center">
-                    FedEx
+                    Courier Plus
 
                   </div>
 
                   <div class="price" align="center">
                       <h3 id="courier0">N1000</h3>
-                      <input type="hidden" id="courierid0" value="SAfceb761" />
+                      <input type="hidden" id="courierid0" value="SA493a731" />
                   </div>
                   <p  style="font-size:12px">1 - 3days</p>
                   <div class="select" align="center" >
