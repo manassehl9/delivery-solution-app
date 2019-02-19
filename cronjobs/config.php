@@ -8,16 +8,16 @@ $config = [
     "db" => [
         "hostname" => "localhost",
 	    "user" => "jituser",
-        "password" => "j!t54ddl3U53r",
-        "database" => "jitsaddle",
+        "password" => "",
+        "database" => "",
         "port" => 3306
     ],
     "smtp" => [
         'server' => 'ssl://smtp.gmail.com',
-        'user' => 'saddle@netplusadvisory.com',
-        'password' => 'Saddle7890',
-        'from' => ['saddle@netplusadvisory.com' => 'Saddle Bot'],
-        'to' => ['dapo@webmallng.com','adeshina@webmallng.com','emmanuel@netplusadvisory.com'],
+        'user' => '',
+        'password' => '',
+        'from' => ['' => 'Saddle Bot'],
+        'to' => ['','adeshina@webmallng.com',''],
         'port' => 465
     ]
 ]
